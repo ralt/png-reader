@@ -3,7 +3,8 @@
 int main(int argc, char *argv[])
 {
     FILE *fp;
-    uint8_t *buffer[BUFFER_SIZE];
+    uint8_t buffer[BUFFER_SIZE];
+    size_t bytes_read = 0;
 
     if (!argv[1])
     {
@@ -14,8 +15,10 @@ int main(int argc, char *argv[])
     fp = fopen(argv[1], "r");
 
     do {
-        read_bytes(fp, buffer);
-        printf("%" PRIu8 "\n", *buffer[0]);
+        bytes_read = read_bytes(fp, &buffer);
+        if (bytes_read > 0) {
+            printf("0x%02x%02x%02x%02x\n", buffer[0], buffer[1], buffer[2], buffer[3]);
+        }
     } while (!feof(fp));
 
     fclose(fp);
