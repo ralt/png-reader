@@ -6,6 +6,8 @@ main(int argc, char *argv[])
     FILE *fp;
     uint8_t buffer[BUFFER_SIZE];
     size_t bytes_read = 0;
+    size_t full_bytes_read = 0;
+    uint8_t headers[PNG_HEADERS_SIZE];
 
     if (argc < 2)
     {
@@ -26,8 +28,13 @@ main(int argc, char *argv[])
         bytes_read = read_bytes(fp, buffer);
         if (bytes_read > 0)
         {
-            printf("0x%02x%02x%02x%02x\n", buffer[0], buffer[1], buffer[2],
-                    buffer[3]);
+            full_bytes_read += bytes_read;
+            add_bytes(headers, buffer);
+
+            if (full_bytes_read == PNG_HEADERS_SIZE)
+            {
+                PNG_read_headers(headers);
+            }
         }
     } while (!feof(fp));
 
@@ -50,4 +57,28 @@ read_bytes(FILE *fp, uint8_t buffer[BUFFER_SIZE])
     }
 
     return bytes_read;
+}
+
+void
+add_bytes(uint8_t headers[PNG_HEADERS_SIZE], uint8_t buffer[BUFFER_SIZE])
+{
+    int i, j;
+    int max;
+
+    // First, find out how many items are filled in.
+    for (i = 0; i < PNG_HEADERS_SIZE; i++)
+    {
+        if (!headers[i])
+        {
+            break;
+        }
+    }
+
+    max = i + BUFFER_SIZE;
+
+    // Then, start from there.
+    for (j = 0; i < max; i++, j++)
+    {
+        headers[i] = buffer[j];
+    }
 }
