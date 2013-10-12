@@ -7,13 +7,19 @@ main(int argc, char *argv[])
     uint8_t buffer[BUFFER_SIZE];
     size_t bytes_read = 0;
 
-    if (!argv[1])
+    if (argc < 2)
     {
         printf("png-reader needs at least one argument\n");
         exit(1);
     }
 
     fp = fopen(argv[1], "r");
+
+    if (fp == NULL)
+    {
+        printf("Error: %s\n", strerror(errno));
+        exit(1);
+    }
 
     do
     {

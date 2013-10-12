@@ -2,6 +2,8 @@
 #include <stdlib.h> // exit
 #include <stdint.h> // uint8_t
 #include <inttypes.h> // PRIu8
+#include <errno.h>
+#include <string.h>
 
 #include "png-reader.h"
 
