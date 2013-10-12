@@ -3,6 +3,8 @@
 #include <stdint.h> // uint8_t
 #include <inttypes.h> // PRIu8
 
+#include "png-reader.h"
+
 #define BUFFER_SIZE 4
 
 size_t
