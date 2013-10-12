@@ -23,7 +23,7 @@ main(int argc, char *argv[])
 
     do
     {
-        bytes_read = read_bytes(fp, &buffer);
+        bytes_read = read_bytes(fp, buffer);
         if (bytes_read > 0)
         {
             printf("0x%02x%02x%02x%02x\n", buffer[0], buffer[1], buffer[2],
@@ -36,7 +36,7 @@ main(int argc, char *argv[])
 }
 
 size_t
-read_bytes(FILE *fp, uint8_t *buffer[BUFFER_SIZE])
+read_bytes(FILE *fp, uint8_t buffer[BUFFER_SIZE])
 {
     size_t bytes_read = 0;
     size_t size = 1;
