@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 
 #define PNG_HEADERS_SIZE 8
 

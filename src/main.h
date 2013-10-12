@@ -1,7 +1,6 @@
-#include <stdio.h> // printf, FILE*
-#include <stdlib.h> // exit
-#include <stdint.h> // uint8_t
-#include <inttypes.h> // PRIu8
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 #include <errno.h>
 #include <string.h>
 

@@ -1,15 +1,20 @@
-all: dist/png-reader
+CC=clang
+OBJ=obj
+BIN=dist/png-reader
+SRC=src
 
-dist/png-reader: obj/main.o obj/png-reader.o
-	clang obj/main.o obj/png-reader.o -o dist/png-reader
+all: $(BIN)
 
-obj/main.o: src/main.c
-	clang -std=c99 -Wall -c src/main.c -o obj/main.o
+$(BIN): $(OBJ)/main.o $(OBJ)/png-reader.o
+	clang $(OBJ)/main.o $(OBJ)/png-reader.o -o $(BIN)
 
-obj/png-reader.o: src/png-reader.o
-	clang -std=c99 -Wall -c src/png-reader.c -o obj/png-reader.o
+$(OBJ)/main.o: $(SRC)/main.c
+	clang -std=c99 -Wall -c $(SRC)/main.c -o $(OBJ)/main.o
+
+$(OBJ)/png-reader.o: $(SRC)/png-reader.o
+	clang -std=c99 -Wall -c $(SRC)/png-reader.c -o $(OBJ)/png-reader.o
 
 .PHONY: clean
 
 clean:
-	rm -f obj/* dist/*
+	rm -f $(OBJ)/* $(BIN)
