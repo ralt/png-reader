@@ -8,5 +8,5 @@
 #include "png-reader.h"
 #include "byte.h"
 
-extern size_t const PNG_HEADERS_SIZE;
+extern size_t const PNG_headers_size;
 extern size_t const BUFFER_SIZE;

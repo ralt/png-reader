@@ -18,7 +18,7 @@ read_bytes(FILE *fp, uint8_t buffer[BUFFER_SIZE])
 }
 
 void
-add_bytes(uint8_t headers[PNG_HEADERS_SIZE], uint8_t buffer[BUFFER_SIZE],
+add_bytes(uint8_t headers[PNG_headers_size], uint8_t buffer[BUFFER_SIZE],
         size_t bytes_read)
 {
     for (size_t i = bytes_read; i < BUFFER_SIZE + bytes_read; i++)
