@@ -3,8 +3,7 @@
 #include <stdio.h>
 
 extern size_t const PNG_headers_size;
-
-static size_t const buffer_size = 8;
+extern size_t const buffer_size;
 
 size_t
 read_bytes(FILE*, uint8_t buffer[buffer_size]);

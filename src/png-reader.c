@@ -14,3 +14,10 @@ PNG_read_headers(uint8_t headers[PNG_headers_size])
     }
     return true;
 }
+
+size_t
+PNG_build_frames(size_t full_bytes_read, PNG_frame frames[],
+        uint8_t buffer[buffer_size])
+{
+    return full_bytes_read;
+}

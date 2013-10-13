@@ -7,6 +7,8 @@ main(int argc, char *argv[])
     uint8_t buffer[buffer_size];
     size_t bytes_read = 0;
     bool headers_read = false;
+    size_t full_bytes_read = 0;
+    PNG_frame *frames;
 
     if (argc < 2)
     {
@@ -31,10 +33,15 @@ main(int argc, char *argv[])
             headers_read = true;
             read_headers(buffer);
         }
-
+        else
+        {
+            full_bytes_read = PNG_build_frames(full_bytes_read,
+                    frames, buffer);
+        }
     } while (!feof(fp));
 
     fclose(fp);
+
     return 0;
 }
 
