@@ -4,10 +4,8 @@ int
 main(int argc, char *argv[])
 {
     FILE *fp;
-    uint8_t buffer[BUFFER_SIZE];
+    uint8_t buffer[buffer_size];
     size_t bytes_read = 0;
-    size_t full_bytes_read = 0;
-    uint8_t headers[PNG_headers_size];
     bool headers_read = false;
 
     if (argc < 2)
@@ -30,27 +28,26 @@ main(int argc, char *argv[])
 
         if (!headers_read)
         {
-            add_bytes(headers, buffer, full_bytes_read);
-
-            full_bytes_read += bytes_read;
-            if (full_bytes_read == PNG_headers_size)
-            {
-                headers_read = true;
-                bool valid = PNG_read_headers(headers);
-                if (!valid)
-                {
-                    printf("The headers do not match a PNG file\n");
-                    exit(1);
-                }
-                else
-                {
-                    printf("The headers match!\n");
-                }
-            }
+            headers_read = true;
+            read_headers(buffer);
         }
 
     } while (!feof(fp));
 
     fclose(fp);
     return 0;
+}
+
+void
+read_headers(uint8_t buffer[buffer_size])
+{
+    if (!PNG_read_headers(buffer))
+    {
+        printf("The headers do not match a PNG file\n");
+        exit(1);
+    }
+    else
+    {
+        printf("The headers match!\n");
+    }
 }
