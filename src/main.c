@@ -8,7 +8,8 @@ main(int argc, char *argv[])
     size_t bytes_read = 0;
     bool headers_read = false;
     size_t full_bytes_read = 0;
-    PNG_frame *frames;
+    PNG_frame_vector frames;
+    PNG_frame_vector_init(&frames, 100);
 
     if (argc < 2)
     {
@@ -36,7 +37,14 @@ main(int argc, char *argv[])
         else
         {
             full_bytes_read = PNG_build_frames(full_bytes_read,
-                    frames, buffer);
+                    &frames, buffer);
+
+            PNG_frame *frame = PNG_frame_vector_get(&frames, 0);
+            int length = (int) frame->length[0] << 24 |
+                (int) frame->length[1] << 16 |
+                (int) frame->length[2] << 8 |
+                (int) frame->length[3];
+            printf("Frame 0 length: %d\n", length);
         }
     } while (!feof(fp));
 

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include "png-frame-vector.h"
 #include "png-reader.h"
 #include "byte.h"
 

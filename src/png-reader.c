@@ -16,8 +16,32 @@ PNG_read_headers(uint8_t headers[PNG_headers_size])
 }
 
 size_t
-PNG_build_frames(size_t full_bytes_read, PNG_frame frames[],
+PNG_build_frames(size_t full_bytes_read, PNG_frame_vector *frames,
         uint8_t buffer[buffer_size])
 {
+    if (full_bytes_read == 0)
+    {
+        PNG_add_headers(frames, buffer);
+    }
     return full_bytes_read;
+}
+
+void
+PNG_add_headers(PNG_frame_vector *frames,
+        uint8_t buffer[buffer_size])
+{
+    PNG_frame *frame = malloc(sizeof(PNG_frame));
+    int i;
+
+    for (i = 0; i < 4; i++)
+    {
+        frame->length[i] = buffer[i];
+    }
+
+    for (i = 4; i < 8; i++)
+    {
+        frame->type[i] = buffer[i];
+    }
+
+    PNG_frame_vector_append(frames, frame);
 }
