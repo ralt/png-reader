@@ -4,10 +4,14 @@
 #include <stdbool.h>
 
 #include "png-frame.h"
+#include "png-frame-vector.h"
 
+#ifndef PNG_READER
+#define PNG_READER
 static size_t const buffer_size = 8;
 
 static size_t const PNG_headers_size = 8;
+#endif
 
 bool
 PNG_read_headers(uint8_t headers[PNG_headers_size]);

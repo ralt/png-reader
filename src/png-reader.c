@@ -40,7 +40,19 @@ PNG_add_headers(PNG_frame_vector *frames,
 
     for (i = 4; i < 8; i++)
     {
-        frame->type[i] = buffer[i];
+        frame->type[i - 4] = buffer[i];
+    }
+
+    static bool debug = false;
+    if (!debug)
+    {
+        printf("type : ");
+        for (i = 0; i < 4; i++)
+        {
+            printf("%c", (unsigned char) frame->type[i]);
+        }
+        printf("\n");
+        debug = true;
     }
 
     PNG_frame_vector_append(frames, frame);

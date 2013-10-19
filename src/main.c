@@ -39,12 +39,17 @@ main(int argc, char *argv[])
             full_bytes_read = PNG_build_frames(full_bytes_read,
                     &frames, buffer);
 
-            PNG_frame *frame = PNG_frame_vector_get(&frames, 0);
-            int length = (int) frame->length[0] << 24 |
-                (int) frame->length[1] << 16 |
-                (int) frame->length[2] << 8 |
-                (int) frame->length[3];
-            printf("Frame 0 length: %d\n", length);
+            static bool debug = false;
+            if (!debug)
+            {
+                PNG_frame *frame = PNG_frame_vector_get(&frames, 0);
+                int length = (int) frame->length[0] << 24 |
+                    (int) frame->length[1] << 16 |
+                    (int) frame->length[2] << 8 |
+                    (int) frame->length[3];
+                printf("Frame 0 length: %d\n", length);
+                debug = true;
+            }
         }
     } while (!feof(fp));
 
