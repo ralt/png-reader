@@ -23,3 +23,13 @@ PNG_build_frames(size_t, PNG_frame_vector *vector,
 void
 PNG_add_headers(PNG_frame_vector *vector,
         uint8_t buffer[buffer_size]);
+
+void
+PNG_add_data(PNG_frame_vector *vector,
+        uint8_t buffer[buffer_size], size_t bytes_left);
+
+int
+PNG_frame_length(PNG_frame *frame);
+
+size_t
+PNG_frame_type(PNG_frame *frame, unsigned char[4]);
