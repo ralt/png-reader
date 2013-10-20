@@ -92,7 +92,7 @@ PNG_add_headers(PNG_frame_vector *frames,
     }
 
     {
-        printf("Frame %d type : ", frames->size);
+        printf("Frame %d type : ", (int) frames->size);
         unsigned char type[4];
         PNG_frame_type(frame, type);
         for (i = 0; i < 4; i++)
@@ -101,8 +101,8 @@ PNG_add_headers(PNG_frame_vector *frames,
         }
         printf("\n");
 
-        printf("Frame %d length : %d\n", frames->size,
-                PNG_frame_length(frame));
+        printf("Frame %d length : %d\n", (int) frames->size,
+                (int) PNG_frame_length(frame));
     }
 }
 

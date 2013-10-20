@@ -1,6 +1,6 @@
 #include "byte.h"
 
-size_t
+void
 read_bytes(FILE *fp, uint8_t buffer[buffer_size])
 {
     size_t bytes_read = 0;

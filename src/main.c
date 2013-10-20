@@ -5,7 +5,6 @@ main(int argc, char *argv[])
 {
     FILE *fp;
     uint8_t buffer[buffer_size];
-    size_t bytes_read = 0;
     bool headers_read = false;
     size_t full_bytes_read = 0;
     PNG_frame_vector frames;
@@ -27,7 +26,7 @@ main(int argc, char *argv[])
 
     do
     {
-        bytes_read = read_bytes(fp, buffer);
+        read_bytes(fp, buffer);
 
         if (!headers_read)
         {
