@@ -18,10 +18,6 @@ PNG_build_frames(size_t full_bytes_read, PNG_frame_vector *frames,
         PNG_frame_length(last_frame) -
         (full_bytes_read - PNG_headers_size - PNG_crc_size);
 
-    printf("bytes left in build: %d\n", bytes_left);
-    printf("fbr in build: %d\n", full_bytes_read);
-    printf("length: %d\n", PNG_frame_length(last_frame));
-
     if (bytes_left == 0 && PNG_frame_length(last_frame) == 0)
     {
         return 0;
@@ -32,7 +28,7 @@ PNG_build_frames(size_t full_bytes_read, PNG_frame_vector *frames,
     if (bytes_left < 0)
     {
         printf("return is : %d\n", -bytes_left);
-        PNG_add_headers(frames, buffer, 0, buffer_size + bytes_left - 1);
+        PNG_add_headers(frames, buffer, 0, buffer_size + bytes_left);
         return -bytes_left;
     }
 
@@ -110,5 +106,5 @@ void
 PNG_add_data(PNG_frame_vector *frames,
         uint8_t buffer[buffer_size], signed int bytes_left)
 {
-    printf(".\n");
+    printf(".");
 }
