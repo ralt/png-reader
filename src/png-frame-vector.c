@@ -52,5 +52,9 @@ PNG_frame_vector_set(PNG_frame_vector *vector, int index,
 void
 PNG_frame_vector_free(PNG_frame_vector *vector)
 {
+    for (int i = 0; i < vector->size; i++)
+    {
+        free(PNG_frame_vector_get(vector, i));
+    }
     free(vector->frames);
 }

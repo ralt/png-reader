@@ -46,8 +46,6 @@ PNG_add_headers(PNG_frame_vector *frames,
         uint8_t buffer[buffer_size], size_t full_bytes_read,
         size_t buffer_offset)
 {
-    printf("fbr in headers: %d\n", full_bytes_read);
-    printf("buffer offset: %d\n", buffer_offset);
     PNG_frame *frame;
     if (full_bytes_read == 0)
     {

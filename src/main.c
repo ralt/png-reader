@@ -9,7 +9,7 @@ main(int argc, char *argv[])
     bool headers_read = false;
     size_t full_bytes_read = 0;
     PNG_frame_vector frames;
-    PNG_frame_vector_init(&frames, 100);
+    PNG_frame_vector_init(&frames, 50);
 
     if (argc < 2)
     {
@@ -40,6 +40,8 @@ main(int argc, char *argv[])
                     &frames, buffer);
         }
     } while (!feof(fp));
+
+    PNG_frame_vector_free(&frames);
 
     fclose(fp);
 
