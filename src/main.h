@@ -8,6 +8,7 @@
 #include "png-frame-vector.h"
 #include "png-frame.h"
 #include "png-frame-builder.h"
+#include "png-headers.h"
 #include "byte.h"
 
 extern size_t const PNG_headers_size;

@@ -6,14 +6,17 @@ FLAGS=-std=c99 -Wall
 
 all: $(BIN)
 
-$(BIN): $(OBJ)/byte.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/main.o
-	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/byte.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o -o $(BIN)
+$(BIN): $(OBJ)/byte.o $(OBJ)/png-headers.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/main.o
+	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/byte.o $(OBJ)/png-headers.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o -o $(BIN)
 
 $(OBJ)/main.o: $(SRC)/main.c
 	$(CC) $(FLAGS) -c $(SRC)/main.c -o $(OBJ)/main.o
 
 $(OBJ)/byte.o: $(SRC)/byte.c
 	$(CC) $(FLAGS) -c $(SRC)/byte.c -o $(OBJ)/byte.o
+
+$(OBJ)/png-headers.o: $(SRC)/png-headers.c
+	$(CC) $(FLAGS) -c $(SRC)/png-headers.c -o $(OBJ)/png-headers.o
 
 $(OBJ)/png-frame.o: $(SRC)/png-frame.c
 	$(CC) $(FLAGS) -c $(SRC)/png-frame.c -o $(OBJ)/png-frame.o
