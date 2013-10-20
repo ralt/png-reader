@@ -47,28 +47,34 @@ PNG_add_headers(PNG_frame_vector *frames,
         size_t buffer_offset)
 {
     PNG_frame *frame;
+    int i;
+
     if (full_bytes_read == 0)
     {
         frame = malloc(sizeof(PNG_frame));
+        if (frame == NULL)
+        {
+            exit(errno);
+        }
+
         PNG_frame_vector_append(frames, frame);
     }
     else
     {
         frame = PNG_frame_vector_get(frames, frames->size - 1);
     }
-    int i;
+
+    if (full_bytes_read < 4 && buffer_offset < 4)
+    {
+        for (i = buffer_offset; i < 4; i++)
+        {
+            frame->length[i] =
+                buffer[i - full_bytes_read + buffer_offset];
+        }
+    }
 
     if (full_bytes_read < 4)
     {
-        if (buffer_offset < 4)
-        {
-            for (i = full_bytes_read; i < 4; i++)
-            {
-                frame->length[i] =
-                    buffer[i - full_bytes_read + buffer_offset];
-            }
-        }
-
         for (i = 4; i < 8; i++)
         {
             if ((i + buffer_offset) < buffer_size)
@@ -81,7 +87,7 @@ PNG_add_headers(PNG_frame_vector *frames,
     {
         for (i = full_bytes_read; i < 8; i++)
         {
-            frame->type[i] = buffer[i - full_bytes_read];
+            frame->type[i] = buffer[i - full_bytes_read + buffer_offset];
         }
     }
 
