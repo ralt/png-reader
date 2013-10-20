@@ -13,6 +13,4 @@ read_bytes(FILE *fp, uint8_t buffer[buffer_size])
         printf("An error happened during file reading.\n");
         exit(1);
     }
-
-    return bytes_read;
 }
