@@ -6,6 +6,18 @@
 
 #include "png-frame.h"
 
+#ifndef PNG_FRAME_VECTOR
+#define PNG_FRAME_VECTOR
+
+typedef struct
+{
+    size_t size;
+    int capacity;
+    PNG_frame **frames;
+} PNG_frame_vector;
+
+#endif
+
 void
 PNG_frame_vector_init(PNG_frame_vector *vector, int capacity);
 

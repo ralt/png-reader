@@ -1,5 +1,15 @@
-#ifndef PNG_FRAME_STRUCTS
-#define PNG_FRAME_STRUCTS
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+#ifndef PNG_FRAME
+#define PNG_FRAME
+
+static size_t const buffer_size = 8;
+
+static size_t const PNG_headers_size = 8;
+
+static size_t const PNG_crc_size = 4;
 
 typedef struct
 {
@@ -9,11 +19,10 @@ typedef struct
     uint8_t crc[4];
 } PNG_frame;
 
-typedef struct
-{
-    size_t size;
-    int capacity;
-    PNG_frame **frames;
-} PNG_frame_vector;
-
 #endif
+
+uint32_t
+PNG_frame_length(PNG_frame *frame);
+
+size_t
+PNG_frame_type(PNG_frame *frame, unsigned char[4]);

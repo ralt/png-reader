@@ -6,7 +6,8 @@
 #include <stdbool.h>
 
 #include "png-frame-vector.h"
-#include "png-reader.h"
+#include "png-frame.h"
+#include "png-frame-builder.h"
 #include "byte.h"
 
 extern size_t const PNG_headers_size;

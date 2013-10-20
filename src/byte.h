@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "png-reader.h"
+#include "png-frame.h"
 
 extern size_t const PNG_headers_size;
 extern size_t const buffer_size;
