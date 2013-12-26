@@ -7,12 +7,3 @@ size_t PNG_frame_length(PNG_frame *frame)
         (uint32_t) frame->length[2] << 8 |
         (uint32_t) frame->length[3]);
 }
-
-size_t PNG_frame_type(PNG_frame *frame, unsigned char type[4])
-{
-    for (int i = 0; i < sizeof(type); i++) {
-        type[i] = frame->type[i];
-    }
-
-    return sizeof(type);
-}
