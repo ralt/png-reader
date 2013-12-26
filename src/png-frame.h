@@ -11,6 +11,10 @@ static size_t const PNG_headers_size = 8;
 
 static size_t const PNG_crc_size = 4;
 
+static size_t const PNG_header_length_size = 4;
+static size_t const PNG_header_type_size = 4;
+static size_t const PNG_header_crc_size = 4;
+
 typedef struct
 {
     uint8_t length[4];
@@ -21,6 +25,6 @@ typedef struct
 
 #endif
 
-uint32_t PNG_frame_length(PNG_frame *frame);
+size_t PNG_frame_length(PNG_frame *frame);
 
 size_t PNG_frame_type(PNG_frame *frame, unsigned char[4]);

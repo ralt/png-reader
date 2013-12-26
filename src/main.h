@@ -10,4 +10,6 @@
 #include "png-frame-builder.h"
 #include "png-headers.h"
 
+extern size_t const PNG_headers_size;
+
 long read_file(char *fname, uint8_t **content);

@@ -10,9 +10,29 @@ int main(int argc, char *argv[])
     uint8_t *content = NULL;
     long fsize = read_file(argv[1], &content);
 
-    for (size_t i = 0; i < fsize; i++) {
-        printf("0x%02x\n", content[i]);
+    uint8_t headers[PNG_headers_size];
+    for (size_t i = 0; i < PNG_headers_size; i++) {
+        headers[i] = content[i];
     }
+
+    if (!PNG_read_headers(headers)) {
+        free(content);
+        printf("The file %s is not a PNG file.\n", argv[1]);
+        exit(EXIT_FAILURE);
+    }
+
+    // @TODO Calculate the average number of PNG frames according to the
+    // number of bytes.
+    PNG_frame_vector frames;
+    PNG_frame_vector_init(&frames, 50);
+
+    PNG_build_frames(&frames, &content, fsize, PNG_headers_size);
+
+    for (size_t i = 0; i < frames.size; i++) {
+        printf("%s", (char*) PNG_frame_vector_get(&frames, i)->type);
+    }
+
+    PNG_frame_vector_free(&frames);
 
     exit(EXIT_SUCCESS);
 }
