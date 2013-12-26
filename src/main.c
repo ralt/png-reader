@@ -1,47 +1,52 @@
 #include "main.h"
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    FILE *fp;
-    uint8_t buffer[BUFFER_SIZE];
-    size_t bytes_read = 0;
-
-    if (!argv[1])
-    {
+    if (argc < 2) {
         printf("png-reader needs at least one argument\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
-    fp = fopen(argv[1], "r");
+    FILE *fp;
+    fp = fopen(argv[1], "rb");
+    if (fp == NULL)
+        goto fatal_error;
 
-    do
-    {
-        bytes_read = read_bytes(fp, &buffer);
-        if (bytes_read > 0)
-        {
-            printf("0x%02x%02x%02x%02x\n", buffer[0], buffer[1], buffer[2],
-                    buffer[3]);
-        }
-    } while (!feof(fp));
+    long fsize;
+    if (fseek(fp, 0, SEEK_END) == -1)
+        goto fatal_error;
 
-    fclose(fp);
-    return 0;
-}
+    if ((fsize = ftell(fp)) == -1)
+        goto fatal_error;
 
-size_t
-read_bytes(FILE *fp, uint8_t *buffer[BUFFER_SIZE])
-{
-    size_t bytes_read = 0;
-    size_t size = 1;
+    if (fseek(fp, 0, SEEK_SET) == -1)
+        goto fatal_error;
 
-    bytes_read = fread(buffer, size, BUFFER_SIZE, fp);
+    char *content;
+    if ((content = (char*) malloc(fsize + 1)) == NULL)
+        goto fatal_error;
 
-    if (bytes_read < size && ferror(fp))
-    {
-        printf("An error happened during file reading.\n");
-        exit(1);
+    size_t bytes_read;
+    bytes_read = fread(content, sizeof(uint8_t), fsize, fp);
+
+    if (bytes_read < fsize && ferror(fp))
+        goto fatal_error;
+
+    content[fsize] = 0;
+
+    int i = 0;
+    uint8_t byte;
+    while ((byte = (uint8_t) content[i])) {
+        printf("0x%02x\n", byte);
+        i++;
     }
 
-    return bytes_read;
+    if (fclose(fp) == EOF)
+        goto fatal_error;
+
+    exit(EXIT_SUCCESS);
+
+fatal_error:
+    printf("%s\n", strerror(errno));
+    exit(EXIT_FAILURE);
 }
