@@ -48,4 +48,4 @@ unsigned long PNG_frame_crc(PNG_frame *frame);
 /**
  * Checks if the CRC is valid by recomputing it.
  */
-bool PNG_frame_crc_check(PNG_frame *frame);
+bool PNG_frame_check_crc(PNG_frame *frame);

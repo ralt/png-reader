@@ -8,35 +8,53 @@ int main(int argc, char *argv[])
     }
 
     uint8_t *content = NULL;
-    long fsize = read_file(argv[1], &content);
+    size_t fsize = read_file(argv[1], &content);
 
-    PNG_file file;
-    PNG_file_import(&file, content, (size_t) fsize);
+    PNG_file *file = malloc(sizeof(PNG_file));
+    PNG_file_import(file, content, fsize);
 
-    if (!PNG_file_check_headers(&file)) {
-        free(content);
+    if (!PNG_file_check_headers(file)) {
         printf("The file %s is not a PNG file.\n", argv[1]);
-        exit(EXIT_FAILURE);
+        goto cleanup;
     }
 
-    if (!PNG_file_check_critical_chunks(&file)) {
+    if (!PNG_file_check_critical_chunks(file)) {
         printf("Critical chunks not OK.\n");
-        exit(EXIT_FAILURE);
+        goto cleanup;
     }
 
-    PNG_file_free(&file);
+    for (size_t i = 0; i < file->frames->size; i++) {
+        PNG_frame frame = *PNG_frame_vector_get(file->frames, i);
+        char type[] = { frame.type[0], frame.type[1], frame.type[2],
+            frame.type[3] };
+        printf("Frame type: %s\n", type);
+        printf("Frame length: %zu\n", PNG_frame_length(&frame));
+
+        bool crc = PNG_frame_check_crc(&frame);
+        if (crc) {
+            printf("CRC verified.\n");
+        } else {
+            printf("CRC invalid!\n");
+        }
+    }
+
+    PNG_file_free(file);
 
     exit(EXIT_SUCCESS);
+
+cleanup:
+    free(content);
+    exit(EXIT_FAILURE);
 }
 
-long read_file(char *fname, uint8_t **content)
+size_t read_file(char *fname, uint8_t **content)
 {
     FILE *fp;
     fp = fopen(fname, "rb");
     if (fp == NULL)
         goto fatal_error;
 
-    long fsize;
+    size_t fsize;
     if (fseek(fp, 0, SEEK_END) == -1)
         goto fatal_error;
 

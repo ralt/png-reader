@@ -1,33 +1,21 @@
 #include "png-frame-builder.h"
 
-void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, long fsize,
+void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, size_t size,
         int cursor)
 {
-    PNG_frame frame;
+    PNG_frame *frame = malloc(sizeof(PNG_frame));
     for (size_t i = 0; i < PNG_header_length_size; i++) {
-        frame.length[i] = content[cursor + i];
+        frame->length[i] = content[cursor + i];
     }
 
-    PNG_build_frame(content, &frame, cursor);
-    PNG_frame_vector_append(frames, &frame);
+    PNG_build_frame(content, frame, cursor);
+    PNG_frame_vector_append(frames, frame);
 
     cursor += PNG_header_length_size + PNG_header_type_size +
-        PNG_header_crc_size + PNG_frame_length(&frame);
+        PNG_header_crc_size + PNG_frame_length(frame);
 
-    char type[] = { frame.type[0], frame.type[1], frame.type[2],
-        frame.type[3] };
-    printf("Frame type: %s\n", type);
-    printf("Frame length: %zu\n", PNG_frame_length(&frame));
-
-    bool crc = PNG_frame_crc_check(&frame);
-    if (crc) {
-        printf("CRC verified.\n");
-    } else {
-        printf("CRC invalid!\n");
-    }
-
-    if (cursor < fsize) {
-        PNG_build_frames(frames, content, fsize, cursor);
+    if (cursor < size) {
+        PNG_build_frames(frames, content, size, cursor);
     }
 }
 

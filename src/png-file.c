@@ -10,19 +10,30 @@ void PNG_file_import(PNG_file *file, uint8_t *content, size_t size)
     // Import frames.
 
     // @TODO Calculate the average number of PNG frames according to the
-    // number of bytes.
-    PNG_frame_vector_init(&file->frames, 50);
+    // number of bytes if possible.
+    file->frames = malloc(sizeof(PNG_frame_vector));
+    PNG_frame_vector_init(file->frames, 50);
 
-    PNG_build_frames(&file->frames, content, size, PNG_headers_size);
+    PNG_build_frames(file->frames, content, size, PNG_headers_size);
 }
 
 void PNG_file_free(PNG_file *file)
 {
-    PNG_frame_vector_free(&file->frames);
+    PNG_frame_vector_free(file->frames);
+    free(file);
 }
 
 bool PNG_file_check_critical_chunks(PNG_file *file)
 {
+    if (PNG_file_check_IHDR(file) == false)
+        return false;
+
+    if (PNG_file_check_IDAT(file) == false)
+        return false;
+
+    if (PNG_file_check_IEND(file) == false)
+        return false;
+
     return true;
 }
 
@@ -36,5 +47,34 @@ bool PNG_file_check_headers(PNG_file *file)
             return false;
         }
     }
+    return true;
+}
+
+/**
+ * The IHDR chunk must be the first frame. It contains:
+ *   - Width: 4 bytes
+ *   - Height: 4 bytes
+ *   - Bit depth: 1 byte
+ *   - Color type: 1 byte
+ *   - Compression method: 1 byte
+ *   - Filter method: 1 byte
+ *   - Interlace method: 1 byte
+ *
+ * @see http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html#C.IHDR
+ */
+bool PNG_file_check_IHDR(PNG_file *file)
+{
+    /*uint8_t const default_type[] = { };
+    PNG_frame *IHDR_frame = PNG_frame_vector_get(file->frames, 0);*/
+    return true;
+}
+
+bool PNG_file_check_IDAT(PNG_file *file)
+{
+    return true;
+}
+
+bool PNG_file_check_IEND(PNG_file *file)
+{
     return true;
 }

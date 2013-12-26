@@ -16,7 +16,7 @@ unsigned long PNG_frame_crc(PNG_frame *frame)
             (uint32_t) frame->crc[3]);
 }
 
-bool PNG_frame_crc_check(PNG_frame *frame)
+bool PNG_frame_check_crc(PNG_frame *frame)
 {
     unsigned char *buf = malloc(sizeof(unsigned char) *
             (

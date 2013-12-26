@@ -10,4 +10,4 @@
 /**
  * Reads fname and puts its bytes in content.
  */
-long read_file(char *fname, uint8_t **content);
+size_t read_file(char *fname, uint8_t **content);

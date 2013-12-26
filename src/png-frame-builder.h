@@ -16,7 +16,7 @@ extern size_t const PNG_header_crc_size;
 /**
  * Builds the frames from what's in the *content array.
  */
-void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, long fsize,
+void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, size_t size,
         int cursor);
 
 /**
