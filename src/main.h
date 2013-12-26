@@ -5,4 +5,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include "png-reader.h"
+#include "png-frame-vector.h"
+#include "png-frame.h"
+#include "png-frame-builder.h"
+#include "png-headers.h"

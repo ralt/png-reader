@@ -2,4 +2,6 @@
 *.i
 *.s
 *.dSYM
+dist/*
 png-reader
+core

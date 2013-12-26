@@ -1,20 +1,37 @@
+CC=clang
+OBJ=obj
+BIN=dist/png-reader
+SRC=src
 FLAGS=-std=c99 -Wall
 
-all: dist/png-reader
+all: $(BIN)
 
 debug: FLAGS += -ggdb
 debug: all
 
-dist/png-reader: obj/main.o obj/png-reader.o
-	clang obj/main.o obj/png-reader.o -o dist/png-reader
 
-obj/main.o: src/main.c
-	clang $(FLAGS) -c src/main.c -o obj/main.o
+$(BIN): $(OBJ)/byte.o $(OBJ)/png-headers.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/main.o
+	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/byte.o $(OBJ)/png-headers.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o -o $(BIN)
 
-obj/png-reader.o: src/png-reader.o
-	clang $(FLAGS) -c src/png-reader.c -o obj/png-reader.o
+$(OBJ)/main.o: $(SRC)/main.c
+	$(CC) $(FLAGS) -c $(SRC)/main.c -o $(OBJ)/main.o
+
+$(OBJ)/byte.o: $(SRC)/byte.c
+	$(CC) $(FLAGS) -c $(SRC)/byte.c -o $(OBJ)/byte.o
+
+$(OBJ)/png-headers.o: $(SRC)/png-headers.c
+	$(CC) $(FLAGS) -c $(SRC)/png-headers.c -o $(OBJ)/png-headers.o
+
+$(OBJ)/png-frame.o: $(SRC)/png-frame.c
+	$(CC) $(FLAGS) -c $(SRC)/png-frame.c -o $(OBJ)/png-frame.o
+
+$(OBJ)/png-frame-builder.o: $(SRC)/png-frame-builder.c
+	$(CC) $(FLAGS) -c $(SRC)/png-frame-builder.c -o $(OBJ)/png-frame-builder.o
+
+$(OBJ)/png-frame-vector.o: $(SRC)/png-frame-vector.c
+	$(CC) $(FLAGS) -c $(SRC)/png-frame-vector.c -o $(OBJ)/png-frame-vector.o
 
 .PHONY: clean debug
 
 clean:
-	rm -f obj/* dist/*
+	rm -f $(OBJ)/* $(BIN)
