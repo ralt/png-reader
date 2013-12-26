@@ -12,4 +12,7 @@
 
 extern size_t const PNG_headers_size;
 
+/**
+ * Reads fname and puts its bytes in content.
+ */
 long read_file(char *fname, uint8_t **content);
