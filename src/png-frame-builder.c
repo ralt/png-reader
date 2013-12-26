@@ -14,6 +14,9 @@ void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, long fsize,
     cursor += PNG_header_length_size + PNG_header_type_size +
         PNG_header_crc_size + PNG_frame_length(&frame);
 
+    char type[] = { frame.type[0], frame.type[1], frame.type[2],
+        frame.type[3] };
+    printf("Frame type: %s\n", type);
     printf("Frame length: %zu\n", PNG_frame_length(&frame));
 
     if (cursor < fsize) {

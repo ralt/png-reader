@@ -28,15 +28,6 @@ int main(int argc, char *argv[])
 
     PNG_build_frames(&frames, content, fsize, PNG_headers_size);
 
-    for (size_t i = 0; i < frames.size; i++) {
-        PNG_frame frame = *PNG_frame_vector_get(&frames, i);
-        for (size_t i = 0; i < 4; i++) {
-            printf("%c", frame.type[i]);
-        }
-        printf("\n");
-    }
-
-
     exit(EXIT_SUCCESS);
 }
 
