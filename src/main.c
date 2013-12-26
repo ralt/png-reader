@@ -7,8 +7,20 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
+    uint8_t *content = NULL;
+    long fsize = read_file(argv[1], &content);
+
+    for (size_t i = 0; i < fsize; i++) {
+        printf("0x%02x\n", content[i]);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+
+long read_file(char *fname, uint8_t **content)
+{
     FILE *fp;
-    fp = fopen(argv[1], "rb");
+    fp = fopen(fname, "rb");
     if (fp == NULL)
         goto fatal_error;
 
@@ -22,24 +34,19 @@ int main(int argc, char *argv[])
     if (fseek(fp, 0, SEEK_SET) == -1)
         goto fatal_error;
 
-    uint8_t *content;
-    if ((content = (uint8_t*) malloc(fsize)) == NULL)
+    if ((*content = (uint8_t*) malloc(fsize)) == NULL)
         goto fatal_error;
 
     size_t bytes_read;
-    bytes_read = fread(content, 1, fsize, fp);
+    bytes_read = fread(*content, 1, fsize, fp);
 
     if (bytes_read < fsize && ferror(fp))
         goto fatal_error;
 
-    for (size_t i = 0; i < fsize; i++) {
-        printf("0x%02x\n", content[i]);
-    }
-
     if (fclose(fp) == EOF)
         goto fatal_error;
 
-    exit(EXIT_SUCCESS);
+    return fsize;
 
 fatal_error:
     printf("%s\n", strerror(errno));

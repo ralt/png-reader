@@ -9,3 +9,5 @@
 #include "png-frame.h"
 #include "png-frame-builder.h"
 #include "png-headers.h"
+
+long read_file(char *fname, uint8_t **content);
