@@ -11,9 +11,7 @@ int main(int argc, char *argv[])
     long fsize = read_file(argv[1], &content);
 
     PNG_file file;
-    for (size_t i = 0; i < PNG_headers_size; i++) {
-        file.headers[i] = content[i];
-    }
+    PNG_file_import(&file, content, (size_t) fsize);
 
     if (!PNG_file_check_headers(&file)) {
         free(content);
@@ -21,18 +19,12 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    // @TODO Calculate the average number of PNG frames according to the
-    // number of bytes.
-    PNG_frame_vector_init(&(file.frames), 50);
-
-    PNG_build_frames(&(file.frames), content, fsize, PNG_headers_size);
-
     if (!PNG_file_check_critical_chunks(&file)) {
         printf("Critical chunks not OK.\n");
         exit(EXIT_FAILURE);
     }
 
-    PNG_frame_vector_free(&(file.frames));
+    PNG_file_free(&file);
 
     exit(EXIT_SUCCESS);
 }

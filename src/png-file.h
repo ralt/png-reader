@@ -3,6 +3,7 @@
 
 #include "png-frame.h"
 #include "png-frame-vector.h"
+#include "png-frame-builder.h"
 
 extern size_t const PNG_headers_size;
 
@@ -19,6 +20,16 @@ typedef struct
 } PNG_file;
 
 #endif
+
+/**
+ * Imports a PNG file contents in PNG_file struct.
+ */
+void PNG_file_import(PNG_file *file, uint8_t *content, size_t size);
+
+/**
+ * Frees a PNG_file struct.
+ */
+void PNG_file_free(PNG_file *file);
 
 /**
  * Checks that all critical chunks of a PNG file are correctly implemented.

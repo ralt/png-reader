@@ -1,5 +1,26 @@
 #include "png-file.h"
 
+void PNG_file_import(PNG_file *file, uint8_t *content, size_t size)
+{
+    // Import headers.
+    for (size_t i = 0; i < PNG_headers_size; i++) {
+        file->headers[i] = content[i];
+    }
+
+    // Import frames.
+
+    // @TODO Calculate the average number of PNG frames according to the
+    // number of bytes.
+    PNG_frame_vector_init(&file->frames, 50);
+
+    PNG_build_frames(&file->frames, content, size, PNG_headers_size);
+}
+
+void PNG_file_free(PNG_file *file)
+{
+    PNG_frame_vector_free(&file->frames);
+}
+
 bool PNG_file_check_critical_chunks(PNG_file *file)
 {
     return true;

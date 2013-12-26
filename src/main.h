@@ -6,11 +6,6 @@
 #include <errno.h>
 
 #include "png-file.h"
-#include "png-frame-vector.h"
-#include "png-frame.h"
-#include "png-frame-builder.h"
-
-extern size_t const PNG_headers_size;
 
 /**
  * Reads fname and puts its bytes in content.
