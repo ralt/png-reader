@@ -22,23 +22,18 @@ int main(int argc, char *argv[])
     if (fseek(fp, 0, SEEK_SET) == -1)
         goto fatal_error;
 
-    char *content;
-    if ((content = (char*) malloc(fsize + 1)) == NULL)
+    uint8_t *content;
+    if ((content = (uint8_t*) malloc(fsize)) == NULL)
         goto fatal_error;
 
     size_t bytes_read;
-    bytes_read = fread(content, sizeof(uint8_t), fsize, fp);
+    bytes_read = fread(content, 1, fsize, fp);
 
     if (bytes_read < fsize && ferror(fp))
         goto fatal_error;
 
-    content[fsize] = 0;
-
-    int i = 0;
-    uint8_t byte;
-    while ((byte = (uint8_t) content[i])) {
-        printf("0x%02x\n", byte);
-        i++;
+    for (size_t i = 0; i < fsize; i++) {
+        printf("0x%02x\n", content[i]);
     }
 
     if (fclose(fp) == EOF)
