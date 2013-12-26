@@ -1,5 +1,11 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+
+#include "crc.h"
 
 #ifndef PNG_FRAME
 #define PNG_FRAME
@@ -21,3 +27,7 @@ typedef struct
 #endif
 
 size_t PNG_frame_length(PNG_frame *frame);
+
+unsigned long PNG_frame_crc(PNG_frame *frame);
+
+bool PNG_frame_crc_check(PNG_frame *frame);

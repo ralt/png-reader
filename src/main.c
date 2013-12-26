@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
 
     PNG_build_frames(&frames, content, fsize, PNG_headers_size);
 
+    PNG_frame_vector_free(&frames);
+
     exit(EXIT_SUCCESS);
 }
 

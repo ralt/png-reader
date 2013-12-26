@@ -19,6 +19,13 @@ void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, long fsize,
     printf("Frame type: %s\n", type);
     printf("Frame length: %zu\n", PNG_frame_length(&frame));
 
+    bool crc = PNG_frame_crc_check(&frame);
+    if (crc) {
+        printf("CRC verified.\n");
+    } else {
+        printf("CRC invalid!\n");
+    }
+
     if (cursor < fsize) {
         PNG_build_frames(frames, content, fsize, cursor);
     }
