@@ -26,10 +26,10 @@ static size_t const PNG_header_crc_size = 4;
  * A single PNG frame.
  */
 struct PNG_frame {
-    uint8_t length[4];
-    uint8_t type[4];
-    uint8_t *data;
-    uint8_t crc[4];
+	uint8_t length[4];
+	uint8_t type[4];
+	uint8_t *data;
+	uint8_t crc[4];
 };
 
 #endif

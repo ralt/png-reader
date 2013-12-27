@@ -14,8 +14,8 @@
  * Defines a single PNG file.
  */
 struct PNG_file {
-    uint8_t headers[PNG_headers_size];
-    struct PNG_frame_vector *frames;
+	uint8_t headers[PNG_headers_size];
+	struct PNG_frame_vector *frames;
 };
 
 #endif
@@ -23,7 +23,7 @@ struct PNG_file {
 /**
  * Imports a PNG file contents in struct PNG_file struct.
  */
-void PNG_file_import(struct PNG_file *file, uint8_t *content, size_t size);
+void PNG_file_import(struct PNG_file *file, uint8_t * content, size_t size);
 
 /**
  * Frees a struct PNG_file struct.
