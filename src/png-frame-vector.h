@@ -31,7 +31,7 @@ void PNG_frame_vector_append(struct PNG_frame_vector *vector, struct PNG_frame *
 /**
  * Returns the PNG_frame at index.
  */
-PNG_frame* PNG_frame_vector_get(struct PNG_frame_vector *vector, int index);
+struct PNG_frame* PNG_frame_vector_get(struct PNG_frame_vector *vector, int index);
 
 /**
  * Defines the PNG_frame stored at index.

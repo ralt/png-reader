@@ -29,7 +29,7 @@ void PNG_frame_vector_append(struct PNG_frame_vector *vector, struct PNG_frame *
     vector->frames[vector->size++] = frame;
 }
 
-PNG_frame* PNG_frame_vector_get(struct PNG_frame_vector *vector, int index)
+struct PNG_frame* PNG_frame_vector_get(struct PNG_frame_vector *vector, int index)
 {
     if (index < 0 || index >= vector->size) {
         printf("Out of bounds\n");
