@@ -41,6 +41,22 @@ int main(int argc, char *argv[])
 		} else {
 			printf("CRC invalid!\n");
 		}
+
+		bool check = true;
+		char text_type[] = "tEXt";
+		for (size_t i = 0; i < PNG_header_type_size; i++) {
+			if (text_type[i] != (char) frame.type[i]) {
+				check = false;
+			}
+		}
+
+		if (check) {
+			printf("Text data: ");
+			for (size_t i = 0; i < PNG_frame_length(&frame); i++) {
+				printf("%c", (char) frame.data[i]);
+			}
+			printf("\n");
+		}
 	}
 
 	PNG_file_free(file);
