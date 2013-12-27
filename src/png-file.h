@@ -19,6 +19,9 @@ struct PNG_file {
 	int height;
 	int bit_depth;
 	int color_type;
+	int compression_method;
+	int filter_method;
+	int interlace_method;
 };
 
 #include "png-frame-vector.h"

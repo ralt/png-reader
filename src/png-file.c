@@ -84,15 +84,61 @@ bool PNG_file_check_IHDR(struct PNG_file * file)
 		return false;
 	}
 
+	if (PNG_chunk_IHDR_check_compression_method(file, IHDR_frame) == false) {
+		return false;
+	}
+
+	if (PNG_chunk_IHDR_check_filter_method(file, IHDR_frame) == false) {
+		return false;
+	}
+
+	if (PNG_chunk_IHDR_check_interlace_method(file, IHDR_frame) == false) {
+		return false;
+	}
+
 	return true;
 }
 
+/**
+ * There must be one or multiple IDAT chunks.
+ */
 bool PNG_file_check_IDAT(struct PNG_file * file)
 {
-	return true;
+	uint8_t const defaults[] = { 0x49, 0x44, 0x41, 0x54 };
+	for (size_t i = 0; i < file->frames->size; i++) {
+		bool check = true;
+		for (size_t j = 0; j < PNG_header_type_size; j++) {
+			if (defaults[j] != PNG_frame_vector_get(file->frames, i)->type[j]) {
+				check = false;
+			}
+		}
+
+		if (check == true) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
+/**
+ * The IEND chunk must be the last frame and its length must be 0.
+ */
 bool PNG_file_check_IEND(struct PNG_file * file)
 {
+	struct PNG_frame *IEND_frame =
+	    PNG_frame_vector_get(file->frames, file->frames->size - 1);
+
+	uint8_t const defaults[] = { 0x49, 0x45, 0x4e, 0x44 };
+	for (size_t i = 0; i < PNG_header_type_size; i++) {
+		if (defaults[i] != IEND_frame->type[i]) {
+			return false;
+		}
+	}
+
+	if (PNG_frame_length(IEND_frame) != 0) {
+		return false;
+	}
+
 	return true;
 }

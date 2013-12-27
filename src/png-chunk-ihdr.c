@@ -105,3 +105,33 @@ bool PNG_chunk_IHDR_check_bit_depth_color_type(struct PNG_file *file,
 
 	return check;
 }
+
+/**
+ * Accepted values: 0 (deflate/inflate compression with a sliding window of at most 32768 bytes)
+ */
+bool PNG_chunk_IHDR_check_compression_method(struct PNG_file * file,
+					     struct PNG_frame * frame)
+{
+	file->compression_method = (int)frame->data[10];
+	return file->compression_method == 0;
+}
+
+/**
+ * Accepted values: 0 (adaptive filtering with five basic filter types)
+ */
+bool PNG_chunk_IHDR_check_filter_method(struct PNG_file * file,
+					struct PNG_frame * frame)
+{
+	file->filter_method = (int)frame->data[11];
+	return file->filter_method == 0;
+}
+
+/**
+ * Accepted values: 0 (no interlace) or 1 (Adam7 interlace)
+ */
+bool PNG_chunk_IHDR_check_interlace_method(struct PNG_file * file,
+					   struct PNG_frame * frame)
+{
+	file->interlace_method = (int)frame->data[12];
+	return file->interlace_method == 0 || file->interlace_method == 1;
+}
