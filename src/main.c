@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
         PNG_frame frame = *PNG_frame_vector_get(file->frames, i);
         char type[] = { frame.type[0], frame.type[1], frame.type[2],
             frame.type[3] };
+        printf("Frame type hex: 0x%02x 0x%02x 0x%02x 0x%02x\n", frame.type[0],
+                frame.type[1], frame.type[2], frame.type[3]);
         printf("Frame type: %s\n", type);
         printf("Frame length: %zu\n", PNG_frame_length(&frame));
 

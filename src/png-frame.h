@@ -49,3 +49,8 @@ unsigned long PNG_frame_crc(PNG_frame *frame);
  * Checks if the CRC is valid by recomputing it.
  */
 bool PNG_frame_check_crc(PNG_frame *frame);
+
+/**
+ * Frees the PNG_frame struct.
+ */
+void PNG_frame_free(PNG_frame *frame);

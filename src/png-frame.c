@@ -46,3 +46,9 @@ bool PNG_frame_check_crc(PNG_frame *frame)
 
     return checked;
 }
+
+void PNG_frame_free(PNG_frame *frame)
+{
+    free(frame->data);
+    free(frame);
+}
