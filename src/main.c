@@ -14,12 +14,16 @@ int main(int argc, char *argv[])
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+
+	file->name = malloc(sizeof(char) * sizeof(argv[1]));
+	if (file->name == NULL) {
+		printf("%s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	file->name = argv[1];
+
 	PNG_file_import(file, content, fsize);
 
-	if (!PNG_file_check_headers(file)) {
-		printf("The file %s is not a PNG file.\n", argv[1]);
-		goto cleanup;
-	}
 	if (!PNG_file_check_critical_chunks(file)) {
 		printf("Critical chunks not OK.\n");
 		goto cleanup;
@@ -45,7 +49,7 @@ int main(int argc, char *argv[])
 		bool check = true;
 		char text_type[] = "tEXt";
 		for (size_t i = 0; i < PNG_header_type_size; i++) {
-			if (text_type[i] != (char) frame.type[i]) {
+			if (text_type[i] != (char)frame.type[i]) {
 				check = false;
 			}
 		}
@@ -53,7 +57,7 @@ int main(int argc, char *argv[])
 		if (check) {
 			printf("Text data: ");
 			for (size_t i = 0; i < PNG_frame_length(&frame); i++) {
-				printf("%c", (char) frame.data[i]);
+				printf("%c", (char)frame.data[i]);
 			}
 			printf("\n");
 		}

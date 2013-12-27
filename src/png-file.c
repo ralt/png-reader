@@ -7,6 +7,12 @@ void PNG_file_import(struct PNG_file *file, uint8_t * content, size_t size)
 		file->headers[i] = content[i];
 	}
 
+	if (!PNG_file_check_headers(file)) {
+		printf("The file %s is not a PNG file.\n", file->name);
+		exit(EXIT_FAILURE);
+	}
+
+
 	//Import frames.
 
 	// @TODO Calculate the average number of PNG frames according to the

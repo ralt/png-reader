@@ -13,6 +13,7 @@
  * Defines a single PNG file.
  */
 struct PNG_file {
+	char *name;
 	uint8_t headers[PNG_headers_size];
 	struct PNG_frame_vector *frames;
 	int width;
