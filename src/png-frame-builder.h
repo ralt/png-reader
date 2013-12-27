@@ -8,12 +8,6 @@
 #include "png-frame.h"
 #include "png-frame-vector.h"
 
-extern size_t const PNG_headers_size;
-
-extern size_t const PNG_header_length_size;
-extern size_t const PNG_header_type_size;
-extern size_t const PNG_header_crc_size;
-
 /**
  * Builds the frames from what's in the *content array.
  */

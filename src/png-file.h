@@ -7,9 +7,6 @@
 #include "png-frame-vector.h"
 #include "png-frame-builder.h"
 
-extern size_t const PNG_headers_size;
-extern size_t const PNG_header_type_size;
-
 #ifndef PNG_FILE
 #define PNG_FILE
 
