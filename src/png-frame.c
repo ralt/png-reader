@@ -1,6 +1,6 @@
 #include "png-frame.h"
 
-size_t PNG_frame_length(PNG_frame *frame)
+size_t PNG_frame_length(struct PNG_frame *frame)
 {
     return (size_t) ((uint32_t) frame->length[0] << 24 |
             (uint32_t) frame->length[1] << 16 |
@@ -8,7 +8,7 @@ size_t PNG_frame_length(PNG_frame *frame)
             (uint32_t) frame->length[3]);
 }
 
-unsigned long PNG_frame_crc(PNG_frame *frame)
+unsigned long PNG_frame_crc(struct PNG_frame *frame)
 {
     return (unsigned long) ((uint32_t) frame->crc[0] << 24 |
             (uint32_t) frame->crc[1] << 16 |
@@ -16,7 +16,7 @@ unsigned long PNG_frame_crc(PNG_frame *frame)
             (uint32_t) frame->crc[3]);
 }
 
-bool PNG_frame_check_crc(PNG_frame *frame)
+bool PNG_frame_check_crc(struct PNG_frame *frame)
 {
     unsigned char *buf = malloc(sizeof(unsigned char) *
             (
@@ -47,7 +47,7 @@ bool PNG_frame_check_crc(PNG_frame *frame)
     return checked;
 }
 
-void PNG_frame_free(PNG_frame *frame)
+void PNG_frame_free(struct PNG_frame *frame)
 {
     free(frame->data);
     free(frame);

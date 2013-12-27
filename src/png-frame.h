@@ -25,32 +25,31 @@ static size_t const PNG_header_crc_size = 4;
 /**
  * A single PNG frame.
  */
-typedef struct
-{
+struct PNG_frame {
     uint8_t length[4];
     uint8_t type[4];
     uint8_t *data;
     uint8_t crc[4];
-} PNG_frame;
+};
 
 #endif
 
 /**
  * Gets the frame length according to its first field.
  */
-size_t PNG_frame_length(PNG_frame *frame);
+size_t PNG_frame_length(struct PNG_frame *frame);
 
 /**
  * Gets the CRC of the frame.
  */
-unsigned long PNG_frame_crc(PNG_frame *frame);
+unsigned long PNG_frame_crc(struct PNG_frame *frame);
 
 /**
  * Checks if the CRC is valid by recomputing it.
  */
-bool PNG_frame_check_crc(PNG_frame *frame);
+bool PNG_frame_check_crc(struct PNG_frame *frame);
 
 /**
  * Frees the PNG_frame struct.
  */
-void PNG_frame_free(PNG_frame *frame);
+void PNG_frame_free(struct PNG_frame *frame);

@@ -4,7 +4,7 @@ void PNG_frame_vector_init(struct PNG_frame_vector *vector, int capacity)
 {
     vector->size = 0;
     vector->capacity = capacity;
-    vector->frames = malloc(sizeof(PNG_frame) * vector->capacity);
+    vector->frames = malloc(sizeof(struct PNG_frame) * vector->capacity);
     if (vector->frames == NULL) {
         printf("%s\n", strerror(errno));
         exit(EXIT_FAILURE);
@@ -15,12 +15,12 @@ void PNG_frame_vector_init(struct PNG_frame_vector *vector, int capacity)
     }
 }
 
-void PNG_frame_vector_append(struct PNG_frame_vector *vector, PNG_frame *frame)
+void PNG_frame_vector_append(struct PNG_frame_vector *vector, struct PNG_frame *frame)
 {
     if (vector->size >= vector->capacity) {
         vector->capacity *= 2;
         vector->frames = realloc(vector->frames,
-                sizeof(PNG_frame) * vector->capacity);
+                sizeof(struct PNG_frame) * vector->capacity);
         if (vector->frames == NULL) {
             exit(errno);
         }
@@ -40,7 +40,7 @@ PNG_frame* PNG_frame_vector_get(struct PNG_frame_vector *vector, int index)
 }
 
 void PNG_frame_vector_set(struct PNG_frame_vector *vector, int index,
-        PNG_frame *value)
+        struct PNG_frame *value)
 {
     vector->frames[index] = value;
 }

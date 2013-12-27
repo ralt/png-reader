@@ -69,7 +69,7 @@ bool PNG_file_check_headers(struct PNG_file *file)
 bool PNG_file_check_IHDR(struct PNG_file *file)
 {
     uint8_t const default_type[] = { 0x49, 0x48, 0x44, 0x52 };
-    PNG_frame *IHDR_frame = PNG_frame_vector_get(file->frames, 0);
+    struct PNG_frame *IHDR_frame = PNG_frame_vector_get(file->frames, 0);
     for (size_t i = 0; i < PNG_header_type_size; i++) {
         if (default_type[i] != IHDR_frame->type[i]) {
             return false;

@@ -3,7 +3,7 @@
 void PNG_build_frames(struct PNG_frame_vector *frames, uint8_t *content, size_t size,
         int cursor)
 {
-    PNG_frame *frame = malloc(sizeof(PNG_frame));
+    struct PNG_frame *frame = malloc(sizeof(struct PNG_frame));
     if (frame == NULL) {
         printf("%s\n", strerror(errno));
         exit(EXIT_FAILURE);
@@ -23,7 +23,7 @@ void PNG_build_frames(struct PNG_frame_vector *frames, uint8_t *content, size_t 
     }
 }
 
-void PNG_build_frame(uint8_t *content, PNG_frame *frame, int cursor)
+void PNG_build_frame(uint8_t *content, struct PNG_frame *frame, int cursor)
 {
     size_t frame_length = PNG_frame_length(frame);
     for (size_t i = 0; i < PNG_header_type_size; i++) {
