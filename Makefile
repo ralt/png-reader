@@ -10,8 +10,8 @@ debug: FLAGS += -ggdb
 debug: all
 
 
-$(BIN): $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o $(OBJ)/main.o
-	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o -o $(BIN)
+$(BIN): $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/main.o
+	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o -o $(BIN)
 
 $(OBJ)/main.o: $(SRC)/main.c
 	$(CC) $(FLAGS) -c $(SRC)/main.c -o $(OBJ)/main.o
@@ -30,6 +30,9 @@ $(OBJ)/crc.o: $(SRC)/crc.c
 
 $(OBJ)/png-file.o: $(SRC)/png-file.c
 	$(CC) $(FLAGS) -c $(SRC)/png-file.c -o $(OBJ)/png-file.o
+
+$(OBJ)/png-chunk-ihdr.o: $(SRC)/png-chunk-ihdr.c
+	$(CC) $(FLAGS) -c $(SRC)/png-chunk-ihdr.c -o $(OBJ)/png-chunk-ihdr.o
 
 .PHONY: clean debug
 

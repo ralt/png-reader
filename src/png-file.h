@@ -2,13 +2,12 @@
 #include <stdbool.h>
 #include <string.h>
 #include <errno.h>
-
-#include "png-frame.h"
-#include "png-frame-vector.h"
-#include "png-frame-builder.h"
+#include <stdint.h>
 
 #ifndef PNG_FILE
 #define PNG_FILE
+
+#include "png-frame.h"
 
 /**
  * Defines a single PNG file.
@@ -16,9 +15,13 @@
 struct PNG_file {
 	uint8_t headers[PNG_headers_size];
 	struct PNG_frame_vector *frames;
+	int width;
+	int height;
 };
 
-#endif
+#include "png-frame-vector.h"
+#include "png-frame-builder.h"
+#include "png-chunk-ihdr.h"
 
 /**
  * Imports a PNG file contents in struct PNG_file struct.
@@ -54,3 +57,5 @@ bool PNG_file_check_IDAT(struct PNG_file *file);
  * Checks that the IEND chunk is correct.
  */
 bool PNG_file_check_IEND(struct PNG_file *file);
+
+#endif
