@@ -1,6 +1,6 @@
 #include "png-frame-vector.h"
 
-void PNG_frame_vector_init(PNG_frame_vector *vector, int capacity)
+void PNG_frame_vector_init(struct PNG_frame_vector *vector, int capacity)
 {
     vector->size = 0;
     vector->capacity = capacity;
@@ -15,7 +15,7 @@ void PNG_frame_vector_init(PNG_frame_vector *vector, int capacity)
     }
 }
 
-void PNG_frame_vector_append(PNG_frame_vector *vector, PNG_frame *frame)
+void PNG_frame_vector_append(struct PNG_frame_vector *vector, PNG_frame *frame)
 {
     if (vector->size >= vector->capacity) {
         vector->capacity *= 2;
@@ -29,7 +29,7 @@ void PNG_frame_vector_append(PNG_frame_vector *vector, PNG_frame *frame)
     vector->frames[vector->size++] = frame;
 }
 
-PNG_frame* PNG_frame_vector_get(PNG_frame_vector *vector, int index)
+PNG_frame* PNG_frame_vector_get(struct PNG_frame_vector *vector, int index)
 {
     if (index < 0 || index >= vector->size) {
         printf("Out of bounds\n");
@@ -39,13 +39,13 @@ PNG_frame* PNG_frame_vector_get(PNG_frame_vector *vector, int index)
     return vector->frames[index];
 }
 
-void PNG_frame_vector_set(PNG_frame_vector *vector, int index,
+void PNG_frame_vector_set(struct PNG_frame_vector *vector, int index,
         PNG_frame *value)
 {
     vector->frames[index] = value;
 }
 
-void PNG_frame_vector_free(PNG_frame_vector *vector)
+void PNG_frame_vector_free(struct PNG_frame_vector *vector)
 {
     for (size_t i = 0; i < vector->size; i++) {
         PNG_frame_free(PNG_frame_vector_get(vector, i));

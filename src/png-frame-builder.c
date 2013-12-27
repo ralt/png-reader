@@ -1,6 +1,6 @@
 #include "png-frame-builder.h"
 
-void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, size_t size,
+void PNG_build_frames(struct PNG_frame_vector *frames, uint8_t *content, size_t size,
         int cursor)
 {
     PNG_frame *frame = malloc(sizeof(PNG_frame));

@@ -18,7 +18,7 @@ extern size_t const PNG_header_type_size;
  */
 struct PNG_file {
     uint8_t headers[PNG_headers_size];
-    PNG_frame_vector *frames;
+    struct PNG_frame_vector *frames;
 };
 
 #endif
