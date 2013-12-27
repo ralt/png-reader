@@ -55,5 +55,53 @@ int PNG_chunk_IHDR_height(struct PNG_frame *frame)
 bool PNG_chunk_IHDR_check_bit_depth_color_type(struct PNG_file *file,
 					       struct PNG_frame *frame)
 {
-	return true;
+	bool check = false;
+
+	file->bit_depth = (int)frame->data[8];
+	file->color_type = (int)frame->data[9];
+	switch (file->color_type) {
+
+	case 0:
+		switch (file->bit_depth) {
+		case 1:
+		case 2:
+		case 4:
+		case 8:
+		case 16:
+			check = true;
+			break;
+		}
+	case 2:
+		switch (file->bit_depth) {
+		case 8:
+		case 16:
+			check = true;
+			break;
+		}
+	case 3:
+		switch (file->bit_depth) {
+		case 1:
+		case 2:
+		case 4:
+		case 8:
+			check = true;
+			break;
+		}
+	case 4:
+		switch (file->bit_depth) {
+		case 8:
+		case 16:
+			check = true;
+			break;
+		}
+	case 6:
+		switch (file->bit_depth) {
+		case 8:
+		case 16:
+			check = true;
+			break;
+		}
+	}
+
+	return check;
 }

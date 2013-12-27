@@ -17,6 +17,8 @@ struct PNG_file {
 	struct PNG_frame_vector *frames;
 	int width;
 	int height;
+	int bit_depth;
+	int color_type;
 };
 
 #include "png-frame-vector.h"
