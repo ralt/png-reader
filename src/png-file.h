@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+#include <errno.h>
 
 #include "png-frame.h"
 #include "png-frame-vector.h"

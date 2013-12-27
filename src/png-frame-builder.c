@@ -4,6 +4,10 @@ void PNG_build_frames(PNG_frame_vector *frames, uint8_t *content, size_t size,
         int cursor)
 {
     PNG_frame *frame = malloc(sizeof(PNG_frame));
+    if (frame == NULL) {
+        printf("%s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
     for (size_t i = 0; i < PNG_header_length_size; i++) {
         frame->length[i] = content[cursor + i];
     }
@@ -27,6 +31,10 @@ void PNG_build_frame(uint8_t *content, PNG_frame *frame, int cursor)
     }
 
     frame->data = malloc(sizeof(uint8_t) * frame_length);
+    if (frame->data == NULL) {
+        printf("%s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
 
     for (size_t i = 0; i < frame_length; i++) {
         frame->data[i] = content[cursor + PNG_header_length_size +

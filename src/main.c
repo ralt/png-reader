@@ -11,6 +11,10 @@ int main(int argc, char *argv[])
     size_t fsize = read_file(argv[1], &content);
 
     struct PNG_file *file = malloc(sizeof(struct PNG_file));
+    if (file == NULL) {
+        printf("%s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
     PNG_file_import(file, content, fsize);
 
     if (!PNG_file_check_headers(file)) {

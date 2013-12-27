@@ -12,6 +12,10 @@ void PNG_file_import(struct PNG_file *file, uint8_t *content, size_t size)
     // @TODO Calculate the average number of PNG frames according to the
     // number of bytes if possible.
     file->frames = malloc(sizeof(PNG_frame_vector));
+    if (file->frames == NULL) {
+        printf("%s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
     PNG_frame_vector_init(file->frames, 50);
 
     PNG_build_frames(file->frames, content, size, PNG_headers_size);

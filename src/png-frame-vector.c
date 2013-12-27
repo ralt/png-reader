@@ -5,6 +5,10 @@ void PNG_frame_vector_init(PNG_frame_vector *vector, int capacity)
     vector->size = 0;
     vector->capacity = capacity;
     vector->frames = malloc(sizeof(PNG_frame) * vector->capacity);
+    if (vector->frames == NULL) {
+        printf("%s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
 
     if (vector->frames == NULL) {
         exit(errno);
