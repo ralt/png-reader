@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     uint8_t *content = NULL;
     size_t fsize = read_file(argv[1], &content);
 
-    PNG_file *file = malloc(sizeof(PNG_file));
+    struct PNG_file *file = malloc(sizeof(struct PNG_file));
     PNG_file_import(file, content, fsize);
 
     if (!PNG_file_check_headers(file)) {
