@@ -8,6 +8,13 @@ size_t PNG_frame_length(struct PNG_frame *frame)
 			 (uint32_t) frame->length[3]);
 }
 
+void PNG_frame_type(struct PNG_frame *frame, char **buf)
+{
+	for (size_t i = 0; i < PNG_header_type_size; i++) {
+		(*buf)[i] = (char) frame->type[i];
+	}
+}
+
 unsigned long PNG_frame_crc(struct PNG_frame *frame)
 {
 	return (unsigned long)((uint32_t) frame->crc[0] << 24 |

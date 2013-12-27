@@ -40,6 +40,11 @@ struct PNG_frame {
 size_t PNG_frame_length(struct PNG_frame *frame);
 
 /**
+ * Sets the type of the frame.
+ */
+void PNG_frame_type(struct PNG_frame *frame, char **buf);
+
+/**
  * Gets the CRC of the frame.
  */
 unsigned long PNG_frame_crc(struct PNG_frame *frame);
