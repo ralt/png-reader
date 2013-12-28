@@ -28,18 +28,18 @@ int main(int argc, char *argv[])
 		printf("Critical chunks not OK.\n");
 		goto cleanup;
 	}
-	for (size_t i = 0; i < file->frames->size; i++) {
-		struct PNG_frame frame = *PNG_frame_vector_get(file->frames, i);
-		char type[] = { frame.type[0], frame.type[1], frame.type[2],
-			frame.type[3]
+	for (size_t i = 0; i < file->chunks->size; i++) {
+		struct PNG_chunk chunk = *PNG_chunk_vector_get(file->chunks, i);
+		char type[] = { chunk.type[0], chunk.type[1], chunk.type[2],
+			chunk.type[3]
 		};
 		printf("Frame type hex: 0x%02x 0x%02x 0x%02x 0x%02x\n",
-		       frame.type[0], frame.type[1], frame.type[2],
-		       frame.type[3]);
+		       chunk.type[0], chunk.type[1], chunk.type[2],
+		       chunk.type[3]);
 		printf("Frame type: %s\n", type);
-		printf("Frame length: %zu\n", PNG_frame_length(&frame));
+		printf("Frame length: %zu\n", PNG_chunk_length(&chunk));
 
-		bool crc = PNG_frame_check_crc(&frame);
+		bool crc = PNG_chunk_check_crc(&chunk);
 		if (crc) {
 			printf("CRC verified.\n");
 		} else {
@@ -47,21 +47,21 @@ int main(int argc, char *argv[])
 		}
 
 		char text_type[] = "tEXt";
-		char *frame_type = malloc(sizeof(char) * PNG_header_type_size);
-		if (frame_type == NULL) {
+		char *chunk_type = malloc(sizeof(char) * PNG_header_type_size);
+		if (chunk_type == NULL) {
 			printf("%s\n", strerror(errno));
 			goto cleanup;
 		}
 
-		PNG_frame_type(&frame, &frame_type);
-		if (strncmp(frame_type, text_type, PNG_header_type_size) == 0) {
+		PNG_chunk_type(&chunk, &chunk_type);
+		if (strncmp(chunk_type, text_type, PNG_header_type_size) == 0) {
 			printf("Text data: ");
-			for (size_t i = 0; i < PNG_frame_length(&frame); i++) {
-				printf("%c", (char)frame.data[i]);
+			for (size_t i = 0; i < PNG_chunk_length(&chunk); i++) {
+				printf("%c", (char)chunk.data[i]);
 			}
 			printf("\n");
 		}
-		free(frame_type);
+		free(chunk_type);
 	}
 
 	free(content);

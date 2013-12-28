@@ -13,23 +13,23 @@ void PNG_file_import(struct PNG_file *file, uint8_t * content, size_t size)
 	}
 
 
-	//Import frames.
+	//Import chunks.
 
-	// @TODO Calculate the average number of PNG frames according to the
+	// @TODO Calculate the average number of PNG chunks according to the
 	// number of bytes if possible
-	file->frames = malloc(sizeof(struct PNG_frame_vector));
-	if (file->frames == NULL) {
+	file->chunks = malloc(sizeof(struct PNG_chunk_vector));
+	if (file->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	PNG_frame_vector_init(file->frames, 50);
+	PNG_chunk_vector_init(file->chunks, 50);
 
-	PNG_build_frames(file->frames, content, size, PNG_headers_size);
+	PNG_build_chunks(file->chunks, content, size, PNG_headers_size);
 }
 
 void PNG_file_free(struct PNG_file *file)
 {
-	PNG_frame_vector_free(file->frames);
+	PNG_chunk_vector_free(file->chunks);
 	free(file);
 }
 
@@ -62,7 +62,7 @@ bool PNG_file_check_headers(struct PNG_file * file)
 }
 
 /**
- * The IHDR chunk must be the first frame. It contains:
+ * The IHDR chunk must be the first chunk. It contains:
  *   - Width: 4 bytes
  *   - Height: 4 bytes
  *   - Bit depth: 1 byte
@@ -75,30 +75,30 @@ bool PNG_file_check_headers(struct PNG_file * file)
  */
 bool PNG_file_check_IHDR(struct PNG_file * file)
 {
-	struct PNG_frame *IHDR_frame = PNG_frame_vector_get(file->frames, 0);
+	struct PNG_chunk *IHDR_chunk = PNG_chunk_vector_get(file->chunks, 0);
 
-	if (PNG_chunk_IHDR_check_type(IHDR_frame) == false) {
+	if (PNG_chunk_IHDR_check_type(IHDR_chunk) == false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_set_dimensions(file, IHDR_frame) == false) {
+	if (PNG_chunk_IHDR_set_dimensions(file, IHDR_chunk) == false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_check_bit_depth_color_type(file, IHDR_frame) ==
+	if (PNG_chunk_IHDR_check_bit_depth_color_type(file, IHDR_chunk) ==
 	    false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_check_compression_method(file, IHDR_frame) == false) {
+	if (PNG_chunk_IHDR_check_compression_method(file, IHDR_chunk) == false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_check_filter_method(file, IHDR_frame) == false) {
+	if (PNG_chunk_IHDR_check_filter_method(file, IHDR_chunk) == false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_check_interlace_method(file, IHDR_frame) == false) {
+	if (PNG_chunk_IHDR_check_interlace_method(file, IHDR_chunk) == false) {
 		return false;
 	}
 
@@ -111,10 +111,10 @@ bool PNG_file_check_IHDR(struct PNG_file * file)
 bool PNG_file_check_IDAT(struct PNG_file * file)
 {
 	uint8_t const defaults[] = { 0x49, 0x44, 0x41, 0x54 };
-	for (size_t i = 0; i < file->frames->size; i++) {
+	for (size_t i = 0; i < file->chunks->size; i++) {
 		bool check = true;
 		for (size_t j = 0; j < PNG_header_type_size; j++) {
-			if (defaults[j] != PNG_frame_vector_get(file->frames, i)->type[j]) {
+			if (defaults[j] != PNG_chunk_vector_get(file->chunks, i)->type[j]) {
 				check = false;
 			}
 		}
@@ -128,21 +128,21 @@ bool PNG_file_check_IDAT(struct PNG_file * file)
 }
 
 /**
- * The IEND chunk must be the last frame and its length must be 0.
+ * The IEND chunk must be the last chunk and its length must be 0.
  */
 bool PNG_file_check_IEND(struct PNG_file * file)
 {
-	struct PNG_frame *IEND_frame =
-	    PNG_frame_vector_get(file->frames, file->frames->size - 1);
+	struct PNG_chunk *IEND_chunk =
+	    PNG_chunk_vector_get(file->chunks, file->chunks->size - 1);
 
 	uint8_t const defaults[] = { 0x49, 0x45, 0x4e, 0x44 };
 	for (size_t i = 0; i < PNG_header_type_size; i++) {
-		if (defaults[i] != IEND_frame->type[i]) {
+		if (defaults[i] != IEND_chunk->type[i]) {
 			return false;
 		}
 	}
 
-	if (PNG_frame_length(IEND_frame) != 0) {
+	if (PNG_chunk_length(IEND_chunk) != 0) {
 		return false;
 	}
 

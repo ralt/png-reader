@@ -7,7 +7,7 @@
 #ifndef PNG_FILE
 #define PNG_FILE
 
-#include "png-frame.h"
+#include "png-chunk.h"
 
 /**
  * Defines a single PNG file.
@@ -15,7 +15,7 @@
 struct PNG_file {
 	char *name;
 	uint8_t headers[PNG_headers_size];
-	struct PNG_frame_vector *frames;
+	struct PNG_chunk_vector *chunks;
 	int width;
 	int height;
 	int bit_depth;
@@ -25,8 +25,8 @@ struct PNG_file {
 	int interlace_method;
 };
 
-#include "png-frame-vector.h"
-#include "png-frame-builder.h"
+#include "png-chunk-vector.h"
+#include "png-chunk-builder.h"
 #include "png-chunk-ihdr.h"
 
 /**

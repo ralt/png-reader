@@ -23,9 +23,9 @@ static size_t const PNG_header_type_size = 4;
 static size_t const PNG_header_crc_size = 4;
 
 /**
- * A single PNG frame.
+ * A single PNG chunk.
  */
-struct PNG_frame {
+struct PNG_chunk {
 	uint8_t length[4];
 	uint8_t type[4];
 	uint8_t *data;
@@ -35,26 +35,26 @@ struct PNG_frame {
 #endif
 
 /**
- * Gets the frame length according to its first field.
+ * Gets the chunk length according to its first field.
  */
-size_t PNG_frame_length(struct PNG_frame *frame);
+size_t PNG_chunk_length(struct PNG_chunk *chunk);
 
 /**
- * Sets the type of the frame.
+ * Sets the type of the chunk.
  */
-void PNG_frame_type(struct PNG_frame *frame, char **buf);
+void PNG_chunk_type(struct PNG_chunk *chunk, char **buf);
 
 /**
- * Gets the CRC of the frame.
+ * Gets the CRC of the chunk.
  */
-unsigned long PNG_frame_crc(struct PNG_frame *frame);
+unsigned long PNG_chunk_crc(struct PNG_chunk *chunk);
 
 /**
  * Checks if the CRC is valid by recomputing it.
  */
-bool PNG_frame_check_crc(struct PNG_frame *frame);
+bool PNG_chunk_check_crc(struct PNG_chunk *chunk);
 
 /**
- * Frees the PNG_frame struct.
+ * Frees the PNG_chunk struct.
  */
-void PNG_frame_free(struct PNG_frame *frame);
+void PNG_chunk_free(struct PNG_chunk *chunk);

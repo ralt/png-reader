@@ -10,20 +10,20 @@ debug: FLAGS += -ggdb
 debug: all
 
 
-$(BIN): $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/main.o
-	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/png-frame.o $(OBJ)/png-frame-builder.o $(OBJ)/png-frame-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o -o $(BIN)
+$(BIN): $(OBJ)/png-chunk.o $(OBJ)/png-chunk-builder.o $(OBJ)/png-chunk-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/main.o
+	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/png-chunk.o $(OBJ)/png-chunk-builder.o $(OBJ)/png-chunk-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o -o $(BIN)
 
 $(OBJ)/main.o: $(SRC)/main.c
 	$(CC) $(FLAGS) -c $(SRC)/main.c -o $(OBJ)/main.o
 
-$(OBJ)/png-frame.o: $(SRC)/png-frame.c
-	$(CC) $(FLAGS) -c $(SRC)/png-frame.c -o $(OBJ)/png-frame.o
+$(OBJ)/png-chunk.o: $(SRC)/png-chunk.c
+	$(CC) $(FLAGS) -c $(SRC)/png-chunk.c -o $(OBJ)/png-chunk.o
 
-$(OBJ)/png-frame-builder.o: $(SRC)/png-frame-builder.c
-	$(CC) $(FLAGS) -c $(SRC)/png-frame-builder.c -o $(OBJ)/png-frame-builder.o
+$(OBJ)/png-chunk-builder.o: $(SRC)/png-chunk-builder.c
+	$(CC) $(FLAGS) -c $(SRC)/png-chunk-builder.c -o $(OBJ)/png-chunk-builder.o
 
-$(OBJ)/png-frame-vector.o: $(SRC)/png-frame-vector.c
-	$(CC) $(FLAGS) -c $(SRC)/png-frame-vector.c -o $(OBJ)/png-frame-vector.o
+$(OBJ)/png-chunk-vector.o: $(SRC)/png-chunk-vector.c
+	$(CC) $(FLAGS) -c $(SRC)/png-chunk-vector.c -o $(OBJ)/png-chunk-vector.o
 
 $(OBJ)/crc.o: $(SRC)/crc.c
 	$(CC) $(FLAGS) -c $(SRC)/crc.c -o $(OBJ)/crc.o
