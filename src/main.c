@@ -24,10 +24,6 @@ int main(int argc, char *argv[])
 
 	PNG_file_import(file, content, fsize);
 
-	if (!PNG_file_check_critical_chunks(file)) {
-		printf("Critical chunks not OK.\n");
-		goto cleanup;
-	}
 	for (size_t i = 0; i < file->chunks->size; i++) {
 		struct PNG_chunk chunk = *PNG_chunk_vector_get(file->chunks, i);
 		char type[] = { chunk.type[0], chunk.type[1], chunk.type[2],

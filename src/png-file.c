@@ -11,23 +11,56 @@ void PNG_file_import(struct PNG_file *file, uint8_t * content, size_t size)
 		printf("The file %s is not a PNG file.\n", file->name);
 		exit(EXIT_FAILURE);
 	}
+
 	//Import chunks.
 
-	// @TODO Calculate the average number of PNG chunks according to the
-	// number of bytes if possible
 	file->chunks = malloc(sizeof(struct PNG_chunk_vector));
 	if (file->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+
+	// @TODO Calculate the average number of PNG chunks according to the
+	// number of bytes if possible
 	PNG_chunk_vector_init(file->chunks, 50);
 
 	PNG_build_chunks(file->chunks, content, size, PNG_headers_size);
+
+	PNG_build_semantic_chunks(file);
+
+	if (!PNG_file_check_critical_chunks(file)) {
+		printf("Critical chunks not OK.\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 void PNG_file_free(struct PNG_file *file)
 {
 	PNG_chunk_vector_free(file->chunks);
+
+	free(file->IHDR_chunk);
+	free(file->PLTE_chunk);
+	PNG_chunk_IDAT_vector_free(file->IDAT_chunks);
+	free(file->IEND_chunk);
+
+	free(file->cHRM_chunk);
+	free(file->gAMA_chunk);
+	free(file->iCCP_chunk);
+	free(file->sBIT_chunk);
+	free(file->sRGB_chunk);
+
+	free(file->bKGD_chunk);
+	free(file->hIST_chunk);
+	free(file->tRNS_chunk);
+
+	free(file->pHYs_chunk);
+	PNG_chunk_sPLT_vector_free(file->sPLT_chunks);
+
+	free(file->tIME_chunk);
+	PNG_chunk_iTXt_vector_free(file->iTXt_chunks);
+	PNG_chunk_tEXt_vector_free(file->tEXt_chunks);
+	PNG_chunk_xTXt_vector_free(file->xTXt_chunks);
+
 	free(file);
 }
 
