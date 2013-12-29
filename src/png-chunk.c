@@ -11,7 +11,7 @@ size_t PNG_chunk_length(struct PNG_chunk *chunk)
 void PNG_chunk_type(struct PNG_chunk *chunk, char **buf)
 {
 	for (size_t i = 0; i < PNG_header_type_size; i++) {
-		(*buf)[i] = (char) chunk->type[i];
+		(*buf)[i] = (char)chunk->type[i];
 	}
 }
 

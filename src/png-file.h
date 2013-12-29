@@ -16,18 +16,15 @@ struct PNG_file {
 	char *name;
 	uint8_t headers[PNG_headers_size];
 	struct PNG_chunk_vector *chunks;
-	int width;
-	int height;
-	int bit_depth;
-	int color_type;
-	int compression_method;
-	int filter_method;
-	int interlace_method;
+	struct PNG_IHDR_chunk *IHDR_chunk;
 };
 
 #include "png-chunk-vector.h"
 #include "png-chunk-builder.h"
 #include "png-chunk-ihdr.h"
+#include "png-chunk-plte.h"
+#include "png-chunk-idat.h"
+#include "png-chunk-iend.h"
 
 /**
  * Imports a PNG file contents in struct PNG_file struct.
@@ -53,6 +50,11 @@ bool PNG_file_check_headers(struct PNG_file *file);
  * Checks that the IHDR chunk is correct.
  */
 bool PNG_file_check_IHDR(struct PNG_file *file);
+
+/**
+ * Checks that the PLTE chunk is correct.
+ */
+bool PNG_file_check_PLTE(struct PNG_file *file);
 
 /**
  * Checks that the IDAT chunk is correct.

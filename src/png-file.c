@@ -11,8 +11,6 @@ void PNG_file_import(struct PNG_file *file, uint8_t * content, size_t size)
 		printf("The file %s is not a PNG file.\n", file->name);
 		exit(EXIT_FAILURE);
 	}
-
-
 	//Import chunks.
 
 	// @TODO Calculate the average number of PNG chunks according to the
@@ -36,6 +34,9 @@ void PNG_file_free(struct PNG_file *file)
 bool PNG_file_check_critical_chunks(struct PNG_file *file)
 {
 	if (PNG_file_check_IHDR(file) == false)
+		return false;
+
+	if (PNG_file_check_PLTE(file) == false)
 		return false;
 
 	if (PNG_file_check_IDAT(file) == false)
@@ -80,28 +81,61 @@ bool PNG_file_check_IHDR(struct PNG_file * file)
 	if (PNG_chunk_IHDR_check_type(IHDR_chunk) == false) {
 		return false;
 	}
-
-	if (PNG_chunk_IHDR_set_dimensions(file, IHDR_chunk) == false) {
-		return false;
+	// If we're sure that the chunk is IHDR, we can safely create it
+	file->IHDR_chunk = malloc(sizeof(struct PNG_IHDR_chunk));
+	if (file->IHDR_chunk == NULL) {
+		printf("%s\n", strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 
-	if (PNG_chunk_IHDR_check_bit_depth_color_type(file, IHDR_chunk) ==
+	if (PNG_chunk_IHDR_set_dimensions(file->IHDR_chunk, IHDR_chunk) ==
 	    false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_check_compression_method(file, IHDR_chunk) == false) {
+	if (PNG_chunk_IHDR_check_bit_depth_color_type
+	    (file->IHDR_chunk, IHDR_chunk) == false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_check_filter_method(file, IHDR_chunk) == false) {
+	if (PNG_chunk_IHDR_check_compression_method
+	    (file->IHDR_chunk, IHDR_chunk) == false) {
 		return false;
 	}
 
-	if (PNG_chunk_IHDR_check_interlace_method(file, IHDR_chunk) == false) {
+	if (PNG_chunk_IHDR_check_filter_method(file->IHDR_chunk, IHDR_chunk) ==
+	    false) {
 		return false;
 	}
 
+	if (PNG_chunk_IHDR_check_interlace_method(file->IHDR_chunk, IHDR_chunk)
+	    == false) {
+		return false;
+	}
+	// We must also check that there is only one IHDR chunk.
+	for (size_t i = 1; i < file->chunks->size; i++) {
+		if (PNG_chunk_IHDR_check_type
+		    (PNG_chunk_vector_get(file->chunks, i)) == true) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * A PLTE chunk is not required. However, if it is present, it must be before
+ * any IDAT chunk.
+ */
+bool PNG_file_check_PLTE(struct PNG_file * file)
+{
+	for (size_t i = 1; i < file->chunks->size - 1; i++) {
+		if (PNG_chunk_PLTE_check_type
+		    (PNG_chunk_vector_get(file->chunks, i)) == true) {
+			// @TODO check that it's before any IDAT chunk.
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -110,16 +144,10 @@ bool PNG_file_check_IHDR(struct PNG_file * file)
  */
 bool PNG_file_check_IDAT(struct PNG_file * file)
 {
-	uint8_t const defaults[] = { 0x49, 0x44, 0x41, 0x54 };
-	for (size_t i = 0; i < file->chunks->size; i++) {
-		bool check = true;
-		for (size_t j = 0; j < PNG_header_type_size; j++) {
-			if (defaults[j] != PNG_chunk_vector_get(file->chunks, i)->type[j]) {
-				check = false;
-			}
-		}
-
-		if (check == true) {
+	// The IDAT chunk can't be the 1st or the last.
+	for (size_t i = 1; i < file->chunks->size - 1; i++) {
+		if (PNG_chunk_IDAT_check_type
+		    (PNG_chunk_vector_get(file->chunks, i)) == true) {
 			return true;
 		}
 	}
@@ -135,15 +163,19 @@ bool PNG_file_check_IEND(struct PNG_file * file)
 	struct PNG_chunk *IEND_chunk =
 	    PNG_chunk_vector_get(file->chunks, file->chunks->size - 1);
 
-	uint8_t const defaults[] = { 0x49, 0x45, 0x4e, 0x44 };
-	for (size_t i = 0; i < PNG_header_type_size; i++) {
-		if (defaults[i] != IEND_chunk->type[i]) {
-			return false;
-		}
+	if (PNG_chunk_IEND_check_type(IEND_chunk) == false) {
+		return false;
 	}
 
 	if (PNG_chunk_length(IEND_chunk) != 0) {
 		return false;
+	}
+	// Thy shalt be one!
+	for (size_t i = 0; i < file->chunks->size - 1; i++) {
+		if (PNG_chunk_IEND_check_type
+		    (PNG_chunk_vector_get(file->chunks, i)) == true) {
+			return false;
+		}
 	}
 
 	return true;

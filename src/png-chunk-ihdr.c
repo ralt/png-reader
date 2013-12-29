@@ -13,13 +13,13 @@ bool PNG_chunk_IHDR_check_type(struct PNG_chunk *chunk)
 	return true;
 }
 
-bool PNG_chunk_IHDR_set_dimensions(struct PNG_file * file,
+bool PNG_chunk_IHDR_set_dimensions(struct PNG_IHDR_chunk * IHDR_chunk,
 				   struct PNG_chunk * chunk)
 {
-	if ((file->width = PNG_chunk_IHDR_width(chunk)) == 0) {
+	if ((IHDR_chunk->width = PNG_chunk_IHDR_width(chunk)) == 0) {
 		return false;
 	}
-	if ((file->height = PNG_chunk_IHDR_height(chunk)) == 0) {
+	if ((IHDR_chunk->height = PNG_chunk_IHDR_height(chunk)) == 0) {
 		return false;
 	}
 	return true;
@@ -52,17 +52,18 @@ int PNG_chunk_IHDR_height(struct PNG_chunk *chunk)
  *   4          | 8, 16
  *   6          | 8, 16
  */
-bool PNG_chunk_IHDR_check_bit_depth_color_type(struct PNG_file *file,
+bool PNG_chunk_IHDR_check_bit_depth_color_type(struct PNG_IHDR_chunk
+					       *IHDR_chunk,
 					       struct PNG_chunk *chunk)
 {
 	bool check = false;
 
-	file->bit_depth = (int)chunk->data[8];
-	file->color_type = (int)chunk->data[9];
-	switch (file->color_type) {
+	IHDR_chunk->bit_depth = (int)chunk->data[8];
+	IHDR_chunk->color_type = (int)chunk->data[9];
+	switch (IHDR_chunk->color_type) {
 
 	case 0:
-		switch (file->bit_depth) {
+		switch (IHDR_chunk->bit_depth) {
 		case 1:
 		case 2:
 		case 4:
@@ -72,14 +73,14 @@ bool PNG_chunk_IHDR_check_bit_depth_color_type(struct PNG_file *file,
 			break;
 		}
 	case 2:
-		switch (file->bit_depth) {
+		switch (IHDR_chunk->bit_depth) {
 		case 8:
 		case 16:
 			check = true;
 			break;
 		}
 	case 3:
-		switch (file->bit_depth) {
+		switch (IHDR_chunk->bit_depth) {
 		case 1:
 		case 2:
 		case 4:
@@ -88,14 +89,14 @@ bool PNG_chunk_IHDR_check_bit_depth_color_type(struct PNG_file *file,
 			break;
 		}
 	case 4:
-		switch (file->bit_depth) {
+		switch (IHDR_chunk->bit_depth) {
 		case 8:
 		case 16:
 			check = true;
 			break;
 		}
 	case 6:
-		switch (file->bit_depth) {
+		switch (IHDR_chunk->bit_depth) {
 		case 8:
 		case 16:
 			check = true;
@@ -109,29 +110,30 @@ bool PNG_chunk_IHDR_check_bit_depth_color_type(struct PNG_file *file,
 /**
  * Accepted values: 0 (deflate/inflate compression with a sliding window of at most 32768 bytes)
  */
-bool PNG_chunk_IHDR_check_compression_method(struct PNG_file * file,
+bool PNG_chunk_IHDR_check_compression_method(struct PNG_IHDR_chunk * IHDR_chunk,
 					     struct PNG_chunk * chunk)
 {
-	file->compression_method = (int)chunk->data[10];
-	return file->compression_method == 0;
+	IHDR_chunk->compression_method = (int)chunk->data[10];
+	return IHDR_chunk->compression_method == 0;
 }
 
 /**
  * Accepted values: 0 (adaptive filtering with five basic filter types)
  */
-bool PNG_chunk_IHDR_check_filter_method(struct PNG_file * file,
+bool PNG_chunk_IHDR_check_filter_method(struct PNG_IHDR_chunk * IHDR_chunk,
 					struct PNG_chunk * chunk)
 {
-	file->filter_method = (int)chunk->data[11];
-	return file->filter_method == 0;
+	IHDR_chunk->filter_method = (int)chunk->data[11];
+	return IHDR_chunk->filter_method == 0;
 }
 
 /**
  * Accepted values: 0 (no interlace) or 1 (Adam7 interlace)
  */
-bool PNG_chunk_IHDR_check_interlace_method(struct PNG_file * file,
+bool PNG_chunk_IHDR_check_interlace_method(struct PNG_IHDR_chunk * IHDR_chunk,
 					   struct PNG_chunk * chunk)
 {
-	file->interlace_method = (int)chunk->data[12];
-	return file->interlace_method == 0 || file->interlace_method == 1;
+	IHDR_chunk->interlace_method = (int)chunk->data[12];
+	return IHDR_chunk->interlace_method == 0
+	    || IHDR_chunk->interlace_method == 1;
 }

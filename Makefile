@@ -10,8 +10,8 @@ debug: FLAGS += -ggdb
 debug: all
 
 
-$(BIN): $(OBJ)/png-chunk.o $(OBJ)/png-chunk-builder.o $(OBJ)/png-chunk-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/main.o
-	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/png-chunk.o $(OBJ)/png-chunk-builder.o $(OBJ)/png-chunk-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o -o $(BIN)
+$(BIN): $(OBJ)/png-chunk.o $(OBJ)/png-chunk-builder.o $(OBJ)/png-chunk-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/png-chunk-plte.o $(OBJ)/png-chunk-idat.o  $(OBJ)/png-chunk-iend.o $(OBJ)/main.o
+	$(CC) $(FLAGS) $(OBJ)/main.o $(OBJ)/png-chunk-ihdr.o $(OBJ)/png-chunk-plte.o $(OBJ)/png-chunk-idat.o $(OBJ)/png-chunk-iend.o $(OBJ)/png-chunk.o $(OBJ)/png-chunk-builder.o $(OBJ)/png-chunk-vector.o $(OBJ)/crc.o $(OBJ)/png-file.o -o $(BIN)
 
 $(OBJ)/main.o: $(SRC)/main.c
 	$(CC) $(FLAGS) -c $(SRC)/main.c -o $(OBJ)/main.o
@@ -33,6 +33,15 @@ $(OBJ)/png-file.o: $(SRC)/png-file.c
 
 $(OBJ)/png-chunk-ihdr.o: $(SRC)/png-chunk-ihdr.c
 	$(CC) $(FLAGS) -c $(SRC)/png-chunk-ihdr.c -o $(OBJ)/png-chunk-ihdr.o
+
+$(OBJ)/png-chunk-iend.o: $(SRC)/png-chunk-iend.c
+	$(CC) $(FLAGS) -c $(SRC)/png-chunk-iend.c -o $(OBJ)/png-chunk-iend.o
+
+$(OBJ)/png-chunk-idat.o: $(SRC)/png-chunk-idat.c
+	$(CC) $(FLAGS) -c $(SRC)/png-chunk-idat.c -o $(OBJ)/png-chunk-idat.o
+
+$(OBJ)/png-chunk-plte.o: $(SRC)/png-chunk-plte.c
+	$(CC) $(FLAGS) -c $(SRC)/png-chunk-plte.c -o $(OBJ)/png-chunk-plte.o
 
 .PHONY: clean debug
 
