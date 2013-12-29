@@ -15,6 +15,6 @@ struct PNG_chunk_sRGB {
 /**
  * Checks that the chunk is an sRGB chunk.
  */
-bool PNG_chunk_sRGB_check_type(struct PNG_chunk * chunk);
+bool PNG_chunk_sRGB_check_type(struct PNG_chunk *chunk);
 
 #endif

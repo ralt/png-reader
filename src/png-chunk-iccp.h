@@ -18,6 +18,6 @@ struct PNG_chunk_iCCP {
 /**
  * Checks that the chunk is an iCCP chunk.
  */
-bool PNG_chunk_iCCP_check_type(struct PNG_chunk * chunk);
+bool PNG_chunk_iCCP_check_type(struct PNG_chunk *chunk);
 
 #endif

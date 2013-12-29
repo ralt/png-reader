@@ -15,6 +15,6 @@ struct PNG_chunk_sBIT {
 /**
  * Checks that the chunk is an sBIT chunk.
  */
-bool PNG_chunk_sBIT_check_type(struct PNG_chunk * chunk);
+bool PNG_chunk_sBIT_check_type(struct PNG_chunk *chunk);
 
 #endif

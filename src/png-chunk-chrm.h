@@ -22,6 +22,6 @@ struct PNG_chunk_cHRM {
 /**
  * Checks that the chunk is an cHRM chunk.
  */
-bool PNG_chunk_cHRM_check_type(struct PNG_chunk * chunk);
+bool PNG_chunk_cHRM_check_type(struct PNG_chunk *chunk);
 
 #endif

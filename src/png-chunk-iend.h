@@ -14,6 +14,6 @@ struct PNG_chunk_IEND {
 /**
  * Checks that the chunk is an IEND chunk.
  */
-bool PNG_chunk_IEND_check_type(struct PNG_chunk * chunk);
+bool PNG_chunk_IEND_check_type(struct PNG_chunk *chunk);
 
 #endif

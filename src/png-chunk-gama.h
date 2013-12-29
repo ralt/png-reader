@@ -15,6 +15,6 @@ struct PNG_chunk_GAMA {
 /**
  * Checks that the chunk is an gAMA chunk.
  */
-bool PNG_chunk_gAMA_check_type(struct PNG_chunk * chunk);
+bool PNG_chunk_gAMA_check_type(struct PNG_chunk *chunk);
 
 #endif

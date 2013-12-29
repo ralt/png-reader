@@ -12,7 +12,8 @@ bool PNG_chunk_IDAT_check_type(struct PNG_chunk *chunk)
 	return true;
 }
 
-void PNG_chunk_IDAT_vector_init(struct PNG_chunk_IDAT_vector *vector, int capacity)
+void PNG_chunk_IDAT_vector_init(struct PNG_chunk_IDAT_vector *vector,
+				int capacity)
 {
 	vector->size = 0;
 	vector->capacity = capacity;
@@ -28,7 +29,7 @@ void PNG_chunk_IDAT_vector_init(struct PNG_chunk_IDAT_vector *vector, int capaci
 
 void
 PNG_chunk_IDAT_vector_append(struct PNG_chunk_IDAT_vector *vector,
-			struct PNG_chunk *chunk)
+			     struct PNG_chunk *chunk)
 {
 	if (vector->size >= vector->capacity) {
 		vector->capacity *= 2;
@@ -42,8 +43,8 @@ PNG_chunk_IDAT_vector_append(struct PNG_chunk_IDAT_vector *vector,
 	vector->chunks[vector->size++] = chunk;
 }
 
-struct PNG_chunk_IDAT *PNG_chunk_IDAT_vector_get(struct PNG_chunk_IDAT_vector *vector,
-				       int index)
+struct PNG_chunk_IDAT *PNG_chunk_IDAT_vector_get(struct PNG_chunk_IDAT_vector
+						 *vector, int index)
 {
 	if (index < 0 || index >= vector->size) {
 		printf("Out of bounds\n");
@@ -54,7 +55,7 @@ struct PNG_chunk_IDAT *PNG_chunk_IDAT_vector_get(struct PNG_chunk_IDAT_vector *v
 
 void
 PNG_chunk_IDAT_vector_set(struct PNG_chunk_IDAT_vector *vector, int index,
-		     struct PNG_chunk *value)
+			  struct PNG_chunk *value)
 {
 	vector->chunks[index] = value;
 }
