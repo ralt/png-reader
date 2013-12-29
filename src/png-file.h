@@ -12,46 +12,60 @@
 #include "png-chunk-plte.h"
 #include "png-chunk-idat.h"
 #include "png-chunk-iend.h"
+#include "png-chunk-chrm.h"
+#include "png-chunk-gama.h"
+#include "png-chunk-iccp.h"
+#include "png-chunk-sbit.h"
+#include "png-chunk-srgb.h"
+#include "png-chunk-bkgd.h"
+#include "png-chunk-hist.h"
+#include "png-chunk-trns.h"
+#include "png-chunk-phys.h"
+#include "png-chunk-splt.h"
+#include "png-chunk-time.h"
+#include "png-chunk-itxt.h"
+#include "png-chunk-text.h"
+#include "png-chunk-xtxt.h"
 
 /**
  * Defines a single PNG file.
  */
 struct PNG_file {
-	char *name; // filename
+	char *name;		// filename
 
-	uint8_t headers[PNG_headers_size]; // PNG headers
+	uint8_t headers[PNG_headers_size];	// PNG headers
 
-	struct PNG_chunk_vector *chunks; // raw chunks
+	struct PNG_chunk_vector *chunks;	// raw chunks
 
 	// critical chunks
-	struct PNG_IHDR_chunk *IHDR_chunk;
-	struct PNG_PLTE_chunk *PLTE_chunk;
-	struct PNG_IDAT_chunks *IDAT_chunks;
-	struct PNG_IEND_chunk *IEND_chunk;
+	struct PNG_chunk_IHDR *IHDR_chunk;
+	struct PNG_chunk_PLTE *PLTE_chunk;
+	struct PNG_chunk_IDAT_vector *IDAT_chunks;
+	struct PNG_chunk_IEND *IEND_chunk;
 
 	// ancillary chunks
 
 	// before PLTE and IDAT
-	struct PNG_cHRM_chunk *cHRM_chunk;
-	struct PNG_gAMA_chunk *gAMA_chunk;
-	struct PNG_iCCP_chunk *iCCP_chunk;
-	struct PNG_sBIT_chunk *sBIT_chunk;
-	struct PNG_sRGB_chunk *sRGB_chunk;
+	struct PNG_chunk_cHRM *cHRM_chunk;
+	struct PNG_chunk_gAMA *gAMA_chunk;
+	struct PNG_chunk_iCCP *iCCP_chunk;
+	struct PNG_chunk_sBIT *sBIT_chunk;
+	struct PNG_chunk_sRGB *sRGB_chunk;
 
 	// after PLTE, before IDAT
-	struct PNG_bKGD_chunk *bKGD_chunk;
-	struct PNG_hIST_chunk *hIST_chunk;
-	struct PNG_tRNS_chunk *tRNS_chunk;
+	struct PNG_chunk_bKGD *bKGD_chunk;
+	struct PNG_chunk_hIST *hIST_chunk;
+	struct PNG_chunk_tRNS *tRNS_chunk;
 
 	// before IDAT
-	struct PNG_pHYs_chunk *pHYs_chunk;
-	struct PNG_sPLT_chunks *sPLT_chunks;
+	struct PNG_chunk_pHYs *pHYs_chunk;
+	struct PNG_chunk_sPLT_vector *sPLT_chunks;
 
 	// no order
-	struct PNG_tIME_chunk *tIME_chunk;
-	struct PNG_iTXt_chunks *iTXt_chunks;
-	struct PNG_tEXt_chunks *tEXt_chunks;
-	struct PNG_xTXt_chunks *xTXt_chunks;
+	struct PNG_chunk_tIME *tIME_chunk;
+	struct PNG_chunk_iTXt_vector *iTXt_chunks;
+	struct PNG_chunk_tEXt_vector *tEXt_chunks;
+	struct PNG_chunk_xTXt_vector *xTXt_chunks;
 };
 
 #include "png-chunk-vector.h"

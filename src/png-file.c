@@ -11,7 +11,6 @@ void PNG_file_import(struct PNG_file *file, uint8_t * content, size_t size)
 		printf("The file %s is not a PNG file.\n", file->name);
 		exit(EXIT_FAILURE);
 	}
-
 	//Import chunks.
 
 	file->chunks = malloc(sizeof(struct PNG_chunk_vector));
@@ -19,7 +18,6 @@ void PNG_file_import(struct PNG_file *file, uint8_t * content, size_t size)
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-
 	// @TODO Calculate the average number of PNG chunks according to the
 	// number of bytes if possible
 	PNG_chunk_vector_init(file->chunks, 50);
@@ -39,6 +37,7 @@ void PNG_file_free(struct PNG_file *file)
 	PNG_chunk_vector_free(file->chunks);
 
 	free(file->IHDR_chunk);
+	free(file->PLTE_chunk->data);
 	free(file->PLTE_chunk);
 	PNG_chunk_IDAT_vector_free(file->IDAT_chunks);
 	free(file->IEND_chunk);

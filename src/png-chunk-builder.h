@@ -23,4 +23,4 @@ void PNG_build_chunk(uint8_t * content, struct PNG_chunk *chunk, int cursor);
 /**
  * Builds chunks semantically and attach them on the file.
  */
-void PNG_build_semantic_chunks(struct PNG_file * file);
+void PNG_build_semantic_chunks(struct PNG_file *file);
