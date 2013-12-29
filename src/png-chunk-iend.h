@@ -7,6 +7,10 @@
 
 #include "png-chunk.h"
 
+struct PNG_chunk_IEND {
+	size_t index;
+};
+
 /**
  * Checks that the chunk is an IEND chunk.
  */
