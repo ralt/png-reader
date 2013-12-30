@@ -17,7 +17,7 @@ void PNG_chunk_IDAT_vector_init(struct PNG_chunk_IDAT_vector *vector,
 {
 	vector->size = 0;
 	vector->capacity = capacity;
-	vector->chunks = malloc(sizeof(struct PNG_chunk) * vector->capacity);
+	vector->chunks = malloc(sizeof(struct PNG_chunk_IDAT) * vector->capacity);
 	if (vector->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
@@ -29,7 +29,7 @@ void PNG_chunk_IDAT_vector_init(struct PNG_chunk_IDAT_vector *vector,
 
 void
 PNG_chunk_IDAT_vector_append(struct PNG_chunk_IDAT_vector *vector,
-			     struct PNG_chunk *chunk)
+			     struct PNG_chunk_IDAT *chunk)
 {
 	if (vector->size >= vector->capacity) {
 		vector->capacity *= 2;
@@ -55,7 +55,7 @@ struct PNG_chunk_IDAT *PNG_chunk_IDAT_vector_get(struct PNG_chunk_IDAT_vector
 
 void
 PNG_chunk_IDAT_vector_set(struct PNG_chunk_IDAT_vector *vector, int index,
-			  struct PNG_chunk *value)
+			  struct PNG_chunk_IDAT *value)
 {
 	vector->chunks[index] = value;
 }
@@ -63,7 +63,13 @@ PNG_chunk_IDAT_vector_set(struct PNG_chunk_IDAT_vector *vector, int index,
 void PNG_chunk_IDAT_vector_free(struct PNG_chunk_IDAT_vector *vector)
 {
 	for (size_t i = 0; i < vector->size; i++) {
-		PNG_chunk_free(PNG_chunk_IDAT_vector_get(vector, i));
+		PNG_chunk_IDAT_free(PNG_chunk_IDAT_vector_get(vector, i));
 	}
 	free(vector);
+}
+
+void PNG_chunk_IDAT_free(struct PNG_chunk_IDAT *chunk)
+{
+	free(chunk->data);
+	free(chunk);
 }

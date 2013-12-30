@@ -1,8 +1,8 @@
-#include "png-chunk-splt.h"
+#include "png-chunk-ztxt.h"
 
-bool PNG_chunk_sPLT_check_type(struct PNG_chunk *chunk)
+bool PNG_chunk_zTXt_check_type(struct PNG_chunk *chunk)
 {
-	uint8_t const defaults[] = { 0x73, 0x50, 0x4c, 0x54 };
+	uint8_t const defaults[] = { 0x7a, 0x54, 0x58, 0x74 };
 	for (size_t i = 0; i < PNG_header_type_size; i++) {
 		if (defaults[i] != chunk->type[i]) {
 			return false;
@@ -12,12 +12,12 @@ bool PNG_chunk_sPLT_check_type(struct PNG_chunk *chunk)
 	return true;
 }
 
-void PNG_chunk_sPLT_vector_init(struct PNG_chunk_sPLT_vector *vector,
+void PNG_chunk_zTXt_vector_init(struct PNG_chunk_zTXt_vector *vector,
 				int capacity)
 {
 	vector->size = 0;
 	vector->capacity = capacity;
-	vector->chunks = malloc(sizeof(struct PNG_chunk_sPLT) * vector->capacity);
+	vector->chunks = malloc(sizeof(struct PNG_chunk_zTXt) * vector->capacity);
 	if (vector->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
@@ -28,13 +28,13 @@ void PNG_chunk_sPLT_vector_init(struct PNG_chunk_sPLT_vector *vector,
 }
 
 void
-PNG_chunk_sPLT_vector_append(struct PNG_chunk_sPLT_vector *vector,
-			     struct PNG_chunk_sPLT *chunk)
+PNG_chunk_zTXt_vector_append(struct PNG_chunk_zTXt_vector *vector,
+			     struct PNG_chunk_zTXt *chunk)
 {
 	if (vector->size >= vector->capacity) {
 		vector->capacity *= 2;
 		vector->chunks = realloc(vector->chunks,
-					 sizeof(struct PNG_chunk_sPLT) *
+					 sizeof(struct PNG_chunk_zTXt) *
 					 vector->capacity);
 		if (vector->chunks == NULL) {
 			exit(errno);
@@ -43,7 +43,7 @@ PNG_chunk_sPLT_vector_append(struct PNG_chunk_sPLT_vector *vector,
 	vector->chunks[vector->size++] = chunk;
 }
 
-struct PNG_chunk_sPLT *PNG_chunk_sPLT_vector_get(struct PNG_chunk_sPLT_vector
+struct PNG_chunk_zTXt *PNG_chunk_zTXt_vector_get(struct PNG_chunk_zTXt_vector
 						 *vector, int index)
 {
 	if (index < 0 || index >= vector->size) {
@@ -54,23 +54,23 @@ struct PNG_chunk_sPLT *PNG_chunk_sPLT_vector_get(struct PNG_chunk_sPLT_vector
 }
 
 void
-PNG_chunk_sPLT_vector_set(struct PNG_chunk_sPLT_vector *vector, int index,
-			  struct PNG_chunk_sPLT *value)
+PNG_chunk_zTXt_vector_set(struct PNG_chunk_zTXt_vector *vector, int index,
+			  struct PNG_chunk_zTXt *value)
 {
 	vector->chunks[index] = value;
 }
 
-void PNG_chunk_sPLT_vector_free(struct PNG_chunk_sPLT_vector *vector)
+void PNG_chunk_zTXt_vector_free(struct PNG_chunk_zTXt_vector *vector)
 {
 	for (size_t i = 0; i < vector->size; i++) {
-		PNG_chunk_sPLT_free(PNG_chunk_sPLT_vector_get(vector, i));
+		PNG_chunk_zTXt_free(PNG_chunk_zTXt_vector_get(vector, i));
 	}
 	free(vector);
 }
 
-void PNG_chunk_sPLT_free(struct PNG_chunk_sPLT *chunk)
+void PNG_chunk_zTXt_free(struct PNG_chunk_zTXt *chunk)
 {
-	free(chunk->palette_name);
-	free(chunk->palette_entries);
+	free(chunk->keyword);
+	free(chunk->compressed_text);
 	free(chunk);
 }

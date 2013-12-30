@@ -36,29 +36,7 @@ void PNG_file_free(struct PNG_file *file)
 {
 	PNG_chunk_vector_free(file->chunks);
 
-	free(file->IHDR_chunk);
-	free(file->PLTE_chunk->data);
-	free(file->PLTE_chunk);
-	PNG_chunk_IDAT_vector_free(file->IDAT_chunks);
-	free(file->IEND_chunk);
-
-	free(file->cHRM_chunk);
-	free(file->gAMA_chunk);
-	free(file->iCCP_chunk);
-	free(file->sBIT_chunk);
-	free(file->sRGB_chunk);
-
-	free(file->bKGD_chunk);
-	free(file->hIST_chunk);
-	free(file->tRNS_chunk);
-
-	free(file->pHYs_chunk);
-	PNG_chunk_sPLT_vector_free(file->sPLT_chunks);
-
-	free(file->tIME_chunk);
-	PNG_chunk_iTXt_vector_free(file->iTXt_chunks);
-	PNG_chunk_tEXt_vector_free(file->tEXt_chunks);
-	PNG_chunk_xTXt_vector_free(file->xTXt_chunks);
+	// @TODO free all the fields
 
 	free(file);
 }
@@ -114,7 +92,7 @@ bool PNG_file_check_IHDR(struct PNG_file * file)
 		return false;
 	}
 	// If we're sure that the chunk is IHDR, we can safely create it
-	file->IHDR_chunk = malloc(sizeof(struct PNG_IHDR_chunk));
+	file->IHDR_chunk = malloc(sizeof(struct PNG_chunk_IHDR));
 	if (file->IHDR_chunk == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);

@@ -21,7 +21,7 @@ struct PNG_chunk_sPLT {
 	char *palette_name;
 	uint8_t sample_depth;
 
-	PNG_chunk_sPLT_palette_entry **palette_entries;
+	struct PNG_chunk_sPLT_palette_entry **palette_entries;
 };
 
 struct PNG_chunk_sPLT_vector {
@@ -67,11 +67,6 @@ void PNG_chunk_sPLT_vector_free(struct PNG_chunk_sPLT_vector *vector);
 /**
  * Frees the memory of a single sPLT chunk.
  */
-void PNG_chunk_sPLT_free(struct PNG_chunk_sPLT *chunk)
-{
-	free(chunk->palette_name);
-	free(chunk->palette_entries);
-	free(chunk);
-}
+void PNG_chunk_sPLT_free(struct PNG_chunk_sPLT *chunk);
 
 #endif

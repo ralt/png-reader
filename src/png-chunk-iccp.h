@@ -10,7 +10,6 @@
 struct PNG_chunk_iCCP {
 	size_t index;
 	char *profile_name;
-	uint8_t null_separator;
 	uint8_t compression_method;
 	uint8_t *compressed_profile;
 };

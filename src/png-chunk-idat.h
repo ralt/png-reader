@@ -53,4 +53,9 @@ void PNG_chunk_IDAT_vector_set(struct PNG_chunk_IDAT_vector *vector, int index,
  */
 void PNG_chunk_IDAT_vector_free(struct PNG_chunk_IDAT_vector *vector);
 
+/**
+ * Frees the memory of an IDAT chunk.
+ */
+void PNG_chunk_IDAT_free(struct PNG_chunk_IDAT *chunk);
+
 #endif

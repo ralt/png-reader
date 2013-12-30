@@ -25,7 +25,7 @@
 #include "png-chunk-time.h"
 #include "png-chunk-itxt.h"
 #include "png-chunk-text.h"
-#include "png-chunk-xtxt.h"
+#include "png-chunk-ztxt.h"
 
 /**
  * Defines a single PNG file.
@@ -65,7 +65,7 @@ struct PNG_file {
 	struct PNG_chunk_tIME *tIME_chunk;
 	struct PNG_chunk_iTXt_vector *iTXt_chunks;
 	struct PNG_chunk_tEXt_vector *tEXt_chunks;
-	struct PNG_chunk_xTXt_vector *xTXt_chunks;
+	struct PNG_chunk_zTXt_vector *zTXt_chunks;
 };
 
 #include "png-chunk-vector.h"

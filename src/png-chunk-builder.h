@@ -5,8 +5,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef PNG_CHUNK_BUILDER
+#define PNG_CHUNK_BUILDER
+
 #include "png-chunk.h"
 #include "png-chunk-vector.h"
+#include "png-file.h"
 
 /**
  * Builds the chunks from what's in the *content array.
@@ -24,3 +28,5 @@ void PNG_build_chunk(uint8_t * content, struct PNG_chunk *chunk, int cursor);
  * Builds chunks semantically and attach them on the file.
  */
 void PNG_build_semantic_chunks(struct PNG_file *file);
+
+#endif
