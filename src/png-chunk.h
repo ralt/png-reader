@@ -13,14 +13,14 @@
 /**
  * The size of the PNG headers file.
  */
-static size_t const PNG_headers_size = 8;
+#define PNG_headers_size 8
 
 /**
  * A PNG chunk has 2 headers, its data, and a CRC field.
  */
-static size_t const PNG_header_length_size = 4;
-static size_t const PNG_header_type_size = 4;
-static size_t const PNG_header_crc_size = 4;
+#define PNG_header_length_size 4
+#define PNG_header_type_size 4
+#define PNG_header_crc_size 4
 
 /**
  * A single PNG chunk.
