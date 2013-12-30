@@ -1,6 +1,6 @@
 #include "png-chunk-ihdr.h"
 
-bool PNG_chunk_IHDR_check_type(struct PNG_chunk *chunk)
+bool PNG_chunk_IHDR_check_type(struct PNG_chunk * chunk)
 {
 	uint8_t const defaults[] = { 0x49, 0x48, 0x44, 0x52 };
 

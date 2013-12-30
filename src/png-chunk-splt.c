@@ -1,6 +1,6 @@
 #include "png-chunk-splt.h"
 
-bool PNG_chunk_sPLT_check_type(struct PNG_chunk *chunk)
+bool PNG_chunk_sPLT_check_type(struct PNG_chunk * chunk)
 {
 	uint8_t const defaults[] = { 0x73, 0x50, 0x4c, 0x54 };
 	for (size_t i = 0; i < PNG_header_type_size; i++) {
@@ -17,7 +17,8 @@ void PNG_chunk_sPLT_vector_init(struct PNG_chunk_sPLT_vector *vector,
 {
 	vector->size = 0;
 	vector->capacity = capacity;
-	vector->chunks = malloc(sizeof(struct PNG_chunk_sPLT) * vector->capacity);
+	vector->chunks =
+	    malloc(sizeof(struct PNG_chunk_sPLT) * vector->capacity);
 	if (vector->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);

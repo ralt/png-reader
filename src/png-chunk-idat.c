@@ -1,6 +1,6 @@
 #include "png-chunk-idat.h"
 
-bool PNG_chunk_IDAT_check_type(struct PNG_chunk *chunk)
+bool PNG_chunk_IDAT_check_type(struct PNG_chunk * chunk)
 {
 	uint8_t const defaults[] = { 0x49, 0x44, 0x41, 0x54 };
 	for (size_t i = 0; i < PNG_header_type_size; i++) {
@@ -17,7 +17,8 @@ void PNG_chunk_IDAT_vector_init(struct PNG_chunk_IDAT_vector *vector,
 {
 	vector->size = 0;
 	vector->capacity = capacity;
-	vector->chunks = malloc(sizeof(struct PNG_chunk_IDAT) * vector->capacity);
+	vector->chunks =
+	    malloc(sizeof(struct PNG_chunk_IDAT) * vector->capacity);
 	if (vector->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);

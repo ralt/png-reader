@@ -17,7 +17,8 @@ void PNG_chunk_zTXt_vector_init(struct PNG_chunk_zTXt_vector *vector,
 {
 	vector->size = 0;
 	vector->capacity = capacity;
-	vector->chunks = malloc(sizeof(struct PNG_chunk_zTXt) * vector->capacity);
+	vector->chunks =
+	    malloc(sizeof(struct PNG_chunk_zTXt) * vector->capacity);
 	if (vector->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);

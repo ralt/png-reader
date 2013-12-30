@@ -1,6 +1,6 @@
 #include "png-chunk-itxt.h"
 
-bool PNG_chunk_iTXt_check_type(struct PNG_chunk *chunk)
+bool PNG_chunk_iTXt_check_type(struct PNG_chunk * chunk)
 {
 	uint8_t const defaults[] = { 0x69, 0x54, 0x58, 0x74 };
 	for (size_t i = 0; i < PNG_header_type_size; i++) {
@@ -17,7 +17,8 @@ void PNG_chunk_iTXt_vector_init(struct PNG_chunk_iTXt_vector *vector,
 {
 	vector->size = 0;
 	vector->capacity = capacity;
-	vector->chunks = malloc(sizeof(struct PNG_chunk_iTXt) * vector->capacity);
+	vector->chunks =
+	    malloc(sizeof(struct PNG_chunk_iTXt) * vector->capacity);
 	if (vector->chunks == NULL) {
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
